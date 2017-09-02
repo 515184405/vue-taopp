@@ -55,6 +55,7 @@
             if(response.data.returnCode == 0){
               this.movieList = response.data.returnValue;
               console.log(this.movieList)
+              this.$parent.$parent.loaderShow = false;
             }
           });
 

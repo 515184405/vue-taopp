@@ -1,33 +1,33 @@
 <template>
   	<div class="selector" v-if='selector'>
-   		<div class="selector-box">
+   		<div class="selector-box" id="selectorBox">
+			<div class="selector-main">
+	   			<!-- 区域筛选 -->
+		   		<div class="selector-container">
+		   			<h3 class="selector-title"><span class="selector-name">区域</span><span class="selector-sel" :class='{addColor : (localtionSel!="不限")}'>{{localtionSel}}</span></h3>
+		   			<div class="selector-main">
+		   				<p @click='localtionEvent($event,index)' :class='{addColor2 : localtion === index}' v-for='(reginName,index) in selector.regionNames' >{{reginName}}</p>
+		   			</div>
+		   		</div>
 
-   			<!-- 区域筛选 -->
-	   		<div class="selector-container">
-	   			<h3 class="selector-title"><span class="selector-name">区域</span><span class="selector-sel" :class='{addColor : (localtionSel!="不限")}'>{{localtionSel}}</span></h3>
-	   			<div class="selector-main">
-	   				<p @click='localtionEvent($event,index)' :class='{addColor2 : localtion === index}' v-for='(reginName,index) in selector.regionNames' >{{reginName}}</p>
-	   			</div>
-	   		</div>
-
-   			<!-- 区域筛选 -->
-	   		<!-- 特色筛选 -->
-	   		<div class="selector-container">
-	   			<h3 class="selector-title"><span class="selector-name">特色</span><span class="selector-sel" :class='{addColor : (specalSel!="不限")}'>{{specalSel}}</span></h3>
-	   			<div class="selector-main">
-	   				<p @click='specalEvent($event,index)' :class='{addColor2 : specal === index}' v-for='(support,index) in selector.supports'>{{support.desc}}</p>
-	   			</div>
-	   		</div>
-	   		<!-- 特色筛选 -->
-	   		<!-- 时段筛选 -->
-	   		<div class="selector-container">
-	   			<h3 class="selector-title"><span class="selector-name">时段</span><span class="selector-sel" :class='{addColor : (timeSel!="不限")}'>{{timeSel}}</span></h3>
-	   			<div class="selector-main">
-	   				<p @click='timeEvent($event,index)' :class='{addColor2 : times === index}' v-for='(time,index) in selector.timeMap'>{{time.desc}}</p>
-	   			</div>
-	   		</div>
-	   		<!-- 时段筛选 -->
-
+	   			<!-- 区域筛选 -->
+		   		<!-- 特色筛选 -->
+		   		<div class="selector-container">
+		   			<h3 class="selector-title"><span class="selector-name">特色</span><span class="selector-sel" :class='{addColor : (specalSel!="不限")}'>{{specalSel}}</span></h3>
+		   			<div class="selector-main">
+		   				<p @click='specalEvent($event,index)' :class='{addColor2 : specal === index}' v-for='(support,index) in selector.supports'>{{support.desc}}</p>
+		   			</div>
+		   		</div>
+		   		<!-- 特色筛选 -->
+		   		<!-- 时段筛选 -->
+		   		<div class="selector-container">
+		   			<h3 class="selector-title"><span class="selector-name">时段</span><span class="selector-sel" :class='{addColor : (timeSel!="不限")}'>{{timeSel}}</span></h3>
+		   			<div class="selector-main">
+		   				<p @click='timeEvent($event,index)' :data-id='time.timeRange' :class='{addColor2 : times === index}' v-for='(time,index) in selector.timeMap'>{{time.desc}}</p>
+		   			</div>
+		   		</div>
+		   		<!-- 时段筛选 -->
+		   	</div>
    		</div>
 		<!-- 按钮模块 -->
 		<div class="btn-group">     
@@ -39,18 +39,21 @@
 </template>
 
 <script>
+import BScroll from 'better-scroll';
 export default {
 	data(){
 		return{
 			localtionSel:'不限',
 			specalSel : '不限',
 			timeSel : '不限',
-			selectArr : [],
+			selectArr : [],//筛选显示数组
+			selectEndArr : [],//筛选结果数组
 			localtion:'',
 			specal : '',
 			times : '',
 		}
 	},
+	props:['selector'],
 	methods:{
 		localtionEvent(event,index){ //区域
 			if(this.localtion !== index){
@@ -65,7 +68,7 @@ export default {
 			
 		},
 		specalEvent(event,index){ //特色
-			if(this.specal != index){
+			if(this.specal !== index){
 				this.specal = index;
 				this.specalSel = event.target.innerHTML;
 				this.selectArr[1] = this.specalSel;
@@ -76,13 +79,15 @@ export default {
 			}
 		},
 		timeEvent(event,index){ //时段
-			if(this.times != index){
+			if(this.times !== index){
 				this.times = index;
 				this.timeSel = event.target.innerHTML;
 				this.selectArr[2] = this.timeSel;
+				this.selectEndArr = event.target.getAttribute('data-id');
 			}else{
 				this.timeSel = '不限';
 				this.selectArr[2] = this.timeSel;
+				this.selectEndArr = "";
 				this.times = "";
 			}
 		},
@@ -91,26 +96,47 @@ export default {
 		},
 		addSelector(){//筛选
 			this.$parent.selectArr = this.selectArr;
+			this.$parent.selectEndArr = this.selectEndArr;
 			this.$parent.isSelector = false;
-		}
+		},
+		_initCinemaList(){
+  			this.$nextTick(() => { 
+  				if(!this.selectScroll){
+	  				this.selectScroll = new BScroll(selectorBox, {
+	  					click : true,
+	  				}) 
+			  	}else{
+		  			this.selectScroll.refresh();
+		  		}
+  			})
+	  	},
 	},
-	props:['selector'],
+	updated(){
+	   this._initCinemaList()
+	},
 }
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="stylus" rel="stylesheet/stylus" scoped>
 @import '../../common/css/transition.styl';
+.selector-box
+	position:fixed;
+	left:0;
+	top:41px;
+	bottom:65px;
+	z-index:11;
+	width:100%;
+	overflow:hidden;
+	background-color:#fff;
 .selector
 	position:fixed;
 	left:0;
 	top:41px;
+	width:100%;
 	bottom:0px;
-	overflow:auto;
 	background-color:#fff;
 	z-index:11;
-	.selector-box
-		 padding-bottom: 4rem;
 	.btn-group{
 		height:4rem;
 	    width:100%;

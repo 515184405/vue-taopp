@@ -93,6 +93,7 @@ body {
     font-size: 14px;
    font-family: 'PingFang SC','STHeitiSC-Light',"Microsoft YaHei",Arial,"Helvetica Neue",Helvetica,sans-serif;
 }
+input[type=button], input[type=submit], input[type=file], button { cursor: pointer; -webkit-appearance: none; } 
 
 .clearfix{
     zoom:1;

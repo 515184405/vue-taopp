@@ -4,13 +4,20 @@
 		<!-- 头部 -->
 
    		<div class="cinema-header clearfix">
-   		  <selectcity></selectcity>
+   		 <selectcity></selectcity>
         <div class="right f0">
                 <p @click='selector' :class='{selector:isSelector}' class="hot-screen">筛选</p>
-                <p class="begin-screen">搜索</p>
+                <p @click='searchBtn' class="begin-screen">搜索</p>
           </div> 
    		</div>
 		<!-- 头部 -->
+		<!-- 搜索模块 -->
+
+		<transition name='slideDown'>
+			<search v-if='searchShow'></search>
+		</transition>
+
+		<!-- 搜索模块 -->
 		<!-- 日期筛选模块 -->
 
    		<div id="dateSelect" class="dateSelect" v-if='!!cinemaList.cinemaFilter'>
@@ -20,33 +27,36 @@
    		</div>
    		<div v-if=''></div>
 		<!-- 日期筛选模块 -->
-		<!-- 筛选条件显示模块 -->
-
-   		<div v-if='selectArr.length > 0' class="selectorArr">
-   			<p>已选 : <span v-for='sel in selectArr'>{{sel}}</span></p>
-   			<p @click='closeSelector'>取消筛选</p>
-   		</div>
-		
-		<!-- 筛选条件显示模块 -->
 		<!-- 影院列表 -->
-   		<div v-show='isDateSelect(cinema.supportDate) && islocalSelect(cinema.regionName) && isSpecalSelect(cinema.displaySupports) && isTimeSelect(cinema.shows[0].dateShowTimeMap[dateSel])' class="cinemaList" v-for='cinema in cinemaList.mtopCinemas'>
-   			<p class="cinema-title">
-   				<span class="cinema-name overflow-text">{{cinema.cinemaName}}</span>
-   				<span class="cinema-money">{{cinema.noShowDisplayPrice/100}}</span>元起
-   			</p>
-   			<p class="cinema-dress overflow-text">{{cinema.address}}</p>
-   			<p class="cinema-tag" v-if='cinema.displaySupports.length > 0'><span v-for='tag in cinema.displaySupports'>{{tag.name}}</span></p>
-   			<p class="cinema-newPeople" v-if='cinema.activities'><span class='activities-icon'>{{cinema.activities[0].activityTag | split(1)}}</span><span class="activities-active">{{cinema.activities[0].activityTag}}</span></p>
-   			<p class="cinema-time">
-   				场次 : {{cinema.shows[0].dateShowTimeMap[dateSel]}}
-   			</p>
-   		</div>
+		<div class="cinema-container" id="cinemaContainer">
+			<div class="cinema-box">
+				<!-- 筛选条件显示模块 -->
 
+		   		<div v-if='selectArr.length > 0' class="selectorArr">
+		   			<p>已选 : <span v-for='sel in selectArr'>{{sel}}</span></p>
+		   			<p @click='closeSelector'>取消筛选</p>
+		   		</div>
+				
+				<!-- 筛选条件显示模块 -->
+		   		<div v-show='isDateSelect(cinema.supportDate) && islocalSelect(cinema.regionName) && isSpecalSelect(cinema.displaySupports) && isTimeSelect(cinema.shows[0].dateShowTimeMap[dateSel]) && cimenaNameSelect(cinema.cinemaName)' class="cinemaList" v-for='cinema in cinemaList.mtopCinemas'>
+		   			<p class="cinema-title">
+		   				<span class="cinema-name overflow-text">{{cinema.cinemaName}}</span>
+		   				<span class="cinema-money">{{cinema.noShowDisplayPrice/100}}</span>元起
+		   			</p>
+		   			<p class="cinema-dress overflow-text">{{cinema.address}}</p>
+		   			<p class="cinema-tag" v-if='cinema.displaySupports.length > 0'><span v-for='tag in cinema.displaySupports'>{{tag.name}}</span></p>
+		   			<p class="cinema-newPeople" v-if='cinema.activities'><span class='activities-icon'>{{cinema.activities[0].activityTag | split(1)}}</span><span class="activities-active">{{cinema.activities[0].activityTag}}</span></p>
+		   			<p class="cinema-time">
+		   				场次 : {{cinema.shows[0].dateShowTimeMap[dateSel]}}
+		   			</p>
+		   		</div>
+		   	</div>
+		</div>
 		<!-- 影院列表 -->
 		<!-- 筛选模块 -->
 
-        <transition name='move'>
-        	<selector v-show='isSelector' :selector='cinemaList.cinemaFilter'></selector>
+        <transition name='slideDown'>
+        	<selector ref='selector' v-show='isSelector' :selector='cinemaList.cinemaFilter'></selector>
         </transition>
 
         <!-- 筛选模块 -->
@@ -56,24 +66,32 @@
 <script>
 	import selectcity from '@/components/selectcity/selectcity';
 	import selector from '@/components/cinema/selector';
+	import search from '@/components/cinema/search';
 	import BScroll from 'better-scroll';
 	export default {
 	  data(){
 	  	return {
 	  		isSelector : false,//是否开始条件筛选
 	  		cinemaList : '',//数据列表
-	  		selectArr : [],//筛选结果数组
+	  		selectArr : [],//筛选显示数组
 	  		dateSelectActive : 0,//日期选择活动对象
 	  		dateSel : '',//日期筛选t条件
+	  		selectEndArr : '',//筛选时间
+	  		searchShow : false,
+	  		selectName : '',
 	  	}
 	  },
-	  components:{selectcity,selector},
+	  components:{selectcity,selector,search},
 	  methods : {
 	  	selector(){  //筛选模块打开方法
 	  		this.isSelector = true;
 	  	},
+	  	searchBtn(){
+	  		this.searchShow = true;
+	  	},
 	  	closeSelector(){ //取消筛选方法
 	  		this.selectArr = [];
+	  		this.selectEndArr = '';
 	  	},
 	  	dateTab(index,dates){ //日期tab选项方法
 	  		this.dateSelectActive = index;
@@ -113,11 +131,51 @@
 	  		}
 	  	},
 	  	//时间筛选
-	  	isTimeSelect(local){
-	  		console.log(local)
+	  	isTimeSelect(time){
+	  		if(this.selectEndArr != ''){
+	  			let selTime = this.selectEndArr.split('-');
+	  			let showTime = time.split('|');
+	  			var timeArr=[];//新的数组做比较
+	  			for(var j=0;j < showTime.length;j++){
+	  				var timeStr = showTime[j].substr(0,5).replace(':','.');
+	  				if(showTime[j].substr(6,2) == '次日'){
+	  					timeArr.push(parseFloat(timeStr)+24)
+	  				}
+	  				timeArr.push(parseFloat(timeStr));
+	  			}
+	  			var minTime = parseFloat(selTime[0].replace(':','.'));
+	  			var maxTime = parseFloat(selTime[1].replace(':','.'));
+	  			for(var i=0;i < timeArr.length;i++){
+	  				if((timeArr[i] > minTime) && timeArr[i] < maxTime){
+	  					return true;
+	  				}else{
+	  					return false;
+	  				}
+	  			}
+	  		}
 	  		return true;
 	  	},
-
+	  	//影院名称搜索
+	  	cimenaNameSelect(cinemaName){
+	  		if(this.selectName != ''){
+	  			if(cinemaName.indexOf(this.selectName) != -1){
+	  				return true;
+	  			}
+	  			return false;
+	  		}
+	  		return true;
+	  	},
+	  	_initCinemaList(){
+  			this.$nextTick(() => { 
+  				if(!this.cinemaListScroll){
+	  				this.cinemaListScroll = new BScroll(cinemaContainer, {
+	  					click : true,
+	  				}) 
+			  	}else{
+		  			this.cinemaListScroll.refresh();
+		  		}
+  			})
+	  	},
 	  	_initPic(){  //日期滚动方法
 	        if (this.cinemaList.cinemaFilter) {
 	          let picWidth = 90;
@@ -167,14 +225,18 @@
               this.cinemaList = response.data.returnValue;
               console.log(this.cinemaList)
               this.dateSel = this.cinemaList.cinemaFilter.supportDates[0];
+              this.$parent.loaderShow = false;
             }
          });
       },
       mounted(){
 	     this._initPic();
+	     this._initCinemaList()
 	  },
 	  updated(){
+	  	 this.$refs.selector._initCinemaList()
 	     this._initPic();
+	     this._initCinemaList()
 	  },
 	}
 </script>
@@ -185,16 +247,24 @@
 .t-c{
   text-align:center;
 }
+.cinema-container
+	position:fixed;
+	left:0;
+	top:81px;
+	width:100%;
+	overflow:hidden;
+	bottom:51px;
 .cinema
 	color:#888;
 	.cinema-header
 		position:fixed;
 		left:0;
 		top:0;
+		z-index:12;
 		background:#fff;
 		height:40px;
 		width:100%;
-		border-bottom:1px solid #ddd;
+		border-bottom:1px solid #f1f1f1;
 		.hot-screen,.begin-screen{
 			margion-top:2px;
 			padding:2px 10px 2px 20px;
@@ -210,7 +280,7 @@
 			background:url('./img/search.png') no-repeat 5px center;
 			background-size:1.2rem;
 			padding-left:25px;
-			border-left:1px solid #ddd;
+			border-left:1px solid #f1f1f1;
 		.selector
 			color:$color;
 			background-image:url('./img/selector2.png');
@@ -218,12 +288,15 @@
 		display:flex;
 		padding:0 15px;
 		line-height:2.5rem;
+		background:#fff;
+		border-bottom:1px solid #f1f1f1;
 		justify-content:space-between;	
 		span 
 			margin-right:5px;
 			color:$red;
 	.cinemaList
-		border-bottom:1px solid #ddd;
+		background:#fff;
+		border-bottom:1px solid #f1f1f1;
 		padding-bottom:0.6rem;
 		margin-left:15px;
 		.cinema-title
@@ -264,8 +337,13 @@
 		.activities-active
 			font-size:0.75rem;
 	.dateSelect
-		margin-top:41px;
-		border-bottom:1px solid #ddd;
+		position:fixed;
+		left:0;
+		top:41px;
+		right:0;
+		z-index:1;
+		background:#fff;
+		border-bottom:1px solid #f1f1f1;
 		line-height:2.4rem;
 		overflow:hidden;
 		.date-box

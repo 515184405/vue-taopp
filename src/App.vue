@@ -1,6 +1,6 @@
 <template>
-  <div id="app">
-      <transition name="move">
+  <div id="app" class="appLoader">
+      <transition name="fade">
           <router-view></router-view>
       </transition>
       <div class="app-footer">
@@ -8,19 +8,29 @@
           <router-link class="footer-item" to='/cinema'>影院</router-link>
           <router-link class="footer-item" to='/user'>我的</router-link>
       </div>
+      <transition name='fade'>
+        <loader v-if='loaderShow'></loader>
+      </transition>
   </div>
 </template>
 
 <script>
+import loader from '@/components/loader/loader';
 export default {
   name: 'app',
   data(){
     return {
-
+      loaderShow : true
     }
   },
   methods:{
-    
+    listenUrl(){
+     this.loaderShow = true;
+    }
+  },
+  components:{loader},
+  watch:{//监听路由变化
+     "$route": "listenUrl"
   }
 }
 </script>

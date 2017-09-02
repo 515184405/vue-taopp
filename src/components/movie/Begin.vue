@@ -69,7 +69,8 @@
                   beginData[key] = this.sortByKey(beginData[key],'openTime');
               }
               this.movieList = beginData;
-              this.dateRemoval();
+              this.dateRemoval();              
+              this.$parent.$parent.loaderShow = false;
             }
           });
       },
