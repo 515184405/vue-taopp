@@ -14,8 +14,8 @@
                         <p class="movie-director overflow-text">导演 ：{{item.director}} </p>
                         <p class="movie-leadingRole overflow-text">主演 ：{{item.leadingRole}} </p>
                     </div>
-                    <div v-if='item.soldType == "NORMAL"' class="buy-btn">购票</div>
-                    <div v-if='item.soldType == "PRE"' class="buy-btn btn-advance">预售</div>
+                    <router-link to='/cinema' v-if='item.soldType == "NORMAL"' class="buy-btn">购票</router-link>
+                    <router-link to='/cinema' v-if='item.soldType == "PRE"' class="buy-btn btn-advance">预售</router-link>
                  </div>
              </div>
           </div>

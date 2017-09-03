@@ -109,10 +109,6 @@ input[type=button], input[type=submit], input[type=file], button { cursor: point
 .right{
     float:right;
 }
-.remove-nav{
-    padding-bottom:51px;
-    box-sizing: border-box;
-}
 .root-color{
   color:#90B4FC;
 }

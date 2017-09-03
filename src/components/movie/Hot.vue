@@ -15,8 +15,8 @@
                       <img class="today-hot" v-if='key == 0' src="./img/today-hot.png" alt="今日最热">
                       <img class="week-hot" v-if='key == 0' src="./img/week-hot.png" alt="一周最热">
                       <span v-if='!!item.showMark' class="showMark">{{item.showMark}}</span>
-                      <div v-if='item.soldType == "NORMAL"' class="buy-btn">购票</div>
-                      <div v-if='item.soldType == "PRE"' class="buy-btn btn-advance">预售</div>
+                      <router-link to='/cinema' v-if='item.soldType == "NORMAL"' class="buy-btn">购票</router-link>
+                      <router-link to='/cinema' v-if='item.soldType == "PRE"' class="buy-btn btn-advance">预售</router-link>
                    </div>
                     <p @click='activitiesDetailShow(item.activities)' class="movie-activities overflow-text" v-if='!!item.activities'>
                     <template v-if='!!item.activities[0].activityTag'>

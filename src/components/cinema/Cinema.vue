@@ -38,7 +38,7 @@
 		   		</div>
 				
 				<!-- 筛选条件显示模块 -->
-		   		<div v-show='isDateSelect(cinema.supportDate) && islocalSelect(cinema.regionName) && isSpecalSelect(cinema.displaySupports) && isTimeSelect(cinema.shows[0].dateShowTimeMap[dateSel]) && cimenaNameSelect(cinema.cinemaName)' class="cinemaList" v-for='cinema in cinemaList.mtopCinemas'>
+		   		<div  @click='buyShowClick(cinema)' v-show='isDateSelect(cinema.supportDate) && islocalSelect(cinema.regionName) && isSpecalSelect(cinema.displaySupports) && isTimeSelect(cinema.shows[0].dateShowTimeMap[dateSel]) && cimenaNameSelect(cinema.cinemaName)' class="cinemaList" v-for='cinema in cinemaList.mtopCinemas'>
 		   			<p class="cinema-title">
 		   				<span class="cinema-name overflow-text">{{cinema.cinemaName}}</span>
 		   				<span class="cinema-money">{{cinema.noShowDisplayPrice/100}}</span>元起
@@ -53,6 +53,14 @@
 		   	</div>
 		</div>
 		<!-- 影院列表 -->
+
+		<!-- 购买模块 -->
+		<transition name='move'>
+			<buy v-if='buyShow' :buyData = 'buyData'></buy>
+		</transition>
+		<!-- 购买模块 -->
+		
+
 		<!-- 筛选模块 -->
 
         <transition name='slideDown'>
@@ -68,6 +76,7 @@
 	import selector from '@/components/cinema/selector';
 	import search from '@/components/cinema/search';
 	import BScroll from 'better-scroll';
+	import buy from '@/components/cinema/buy';
 	export default {
 	  data(){
 	  	return {
@@ -79,9 +88,11 @@
 	  		selectEndArr : '',//筛选时间
 	  		searchShow : false,
 	  		selectName : '',
+	  		buyData : '',
+	  		buyShow : false,
 	  	}
 	  },
-	  components:{selectcity,selector,search},
+	  components:{selectcity,selector,search,buy},
 	  methods : {
 	  	selector(){  //筛选模块打开方法
 	  		this.isSelector = true;
@@ -89,9 +100,15 @@
 	  	searchBtn(){
 	  		this.searchShow = true;
 	  	},
+	  	buyShowClick(data){
+	  		this.buyShow = true;
+	  		this.buyData = data;
+	  		this.$parent.loaderShow = true;
+	  	},
 	  	closeSelector(){ //取消筛选方法
 	  		this.selectArr = [];
 	  		this.selectEndArr = '';
+	  		this.selectName = '';
 	  	},
 	  	dateTab(index,dates){ //日期tab选项方法
 	  		this.dateSelectActive = index;

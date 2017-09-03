@@ -1,7 +1,7 @@
 <template>
 	<div class="header" :class='{header2: isActive}'>
 		<div @click='closeMask' class="back"></div>
-		{{title}}
+		<p class="header-title overflow-text">{{title}}</p>
 	</div>
 </template>
 <script>
@@ -25,10 +25,16 @@
 		line-height:2.5rem;
 		height:2.5rem;
 		text-align:center;
+		border-bottom:1px solid #f1f1f1;
 		background:$color;
 		font-size:1rem;
 		font-weight:bold;
 		z-index:15;
+		.header-title
+			display:block;
+			margin:0 auto;
+			width:60%;
+			text-align:center;
 		.back	
 			position:fixed;
 			left:10px;
