@@ -5,7 +5,8 @@
             <div class="buy-box">
                 <p class="cinemaName">地址 : {{buyData.address}}</p>
                 <p class="cinema-tag" v-if='buyData.displaySupports.length > 0'><span v-for='tag in buyData.displaySupports'>{{tag.name}}</span></p>
-                <div class="cinema-banner" v-if='!!buy.notifyBannerVos'>
+                <p class="danger overflow-text">因抓取数据不足，有些数据未与影院关联，请见谅</p>
+                <div @click='bankCarcShow' class="cinema-banner" v-if='!!buy.notifyBannerVos'>
                     <p>{{buy.notifyBannerVos[0].tag}}</p>
                     <p>{{buy.notifyBannerVos[0].title}}</p>
                 </div>
@@ -30,15 +31,15 @@
                       </p>
                     </template>
                  </div>
-                 <div class="showDate" v-if='!!showId'>
+                 <div class="showDate" id="showDate" v-if='!!showId'>
                     <template  v-for='(detail,index) in buy.showScheduleMap[showId]'>
-                       <p @click='tabTag(index)' :class='{active : dateSel === index }' class="detail-date">{{detail.dateDesc}}<i v-if='!!detail.activityTag' class="active-icon">{{detail.activityTag}}</i></p>
-                       <div class="showTab">
-                          <div class="activies">
-                              <span class="new-icon">新</span>
-                              <span class="new-right">新人首张特惠，名额有限抢完即止</span>
+                       <p :style="position(index)" @click='tabTag(index)' :class='{active : dateSel === index }' class="detail-date">{{detail.dateDesc}}<i v-if='!!detail.activityTag' class="active-icon">{{detail.activityTag}}</i></p>
+                       <div class="showTab" v-show='index===dateSel'>
+                          <div @click='activitiesShow' class="activies">
+                              <span class="new-icon">{{buy.announceVos[0].tag}}</span>
+                              <span class="new-right">{{buy.announceVos[0].title}}</span>
                           </div>
-                          <div  v-show='index===dateSel' class="info-box" v-for='(info,index2) in detail.scheduleVos'>
+                          <div class="info-box" v-for='(info,index2) in detail.scheduleVos'>
                               <div>
                                  <p class="info-title">{{info.openTime}}</p>
                                  <p>{{info.closeTime}}散场</p>
@@ -47,9 +48,9 @@
                                  <p>{{info.showVersion}}</p>
                                  <p>{{info.hallName}}</p>
                               </div>
-                               <div>
+                               <div class="info-price-box">
                                  <p class="info-newPeople">{{info.scheduleTag.activityTag}}<span class="info-price">{{info.tradePrice | filterMoney}}</span>元</p>
-                                 <p><s>{{info.cinemaPrice | filterMoney}}</s></p>
+                                 <p><s>{{info.cinemaPrice | filterMoney}}元</s></p>
                               </div>
                               <div class="info-buy-box">
                                 <span class="info-buy">购买</span>
@@ -60,10 +61,14 @@
                  </div>
             </div>
         </div>
+        <transition name='move'>
+          <bankCard ref='bankCard' v-show='isbankCard'></bankCard>
+        </transition>
     </div>
 </template>
 <script>
     import headers from '@/components/header/header';
+    import bankCard from '@/components/cinema/bank-card';
     import BScroll from 'better-scroll';
     export default {
       props:['buyData'],
@@ -73,6 +78,7 @@
             activeImg : 0,
             showId : '',
             dateSel : 0,
+            isbankCard : false, //联名卡信息是否显示
           }
        },
        methods:{
@@ -86,7 +92,6 @@
                 if(!this.picScroll){
                   this.picScroll = new BScroll(scrollContainer, {
                     scrollX: true,
-                    click:true,
                   })
                 }else{ 
                   this.picScroll.refresh();
@@ -94,10 +99,23 @@
               })
             }
           },
+          activitiesShow(){
+            alert('暂未开放')
+          },
+          bankCarcShow(){
+            this.isbankCard = true;
+            this.$refs.bankCard._initScroll();
+          },
+          position(index){
+            let width = 90;
+            return 'left:'+(width*index+15)+'px';
+          },
           _initScroll(){
             this.$nextTick(()=>{
               if(!this.initScroll){
                 this.initScroll = new BScroll(buyContainer, {
+                    click:true,
+
                 })
               }else{ 
                 this.initScroll.refresh();
@@ -110,7 +128,7 @@
           tabImg(event,index,showId){
             let imgWidth = 76;
             this.showId = showId;
-            scrollBox.style.transform = 'translate(-'+imgWidth*this.activeImg+'px,0)';
+            scrollBox.style.transform = 'translate(-'+imgWidth*index+'px,0)';
             if(event.target.className.indexOf('bigImg') != -1){
               alert(11)
             }
@@ -134,7 +152,7 @@
             return parseInt(input)/100
           }
        },
-       components:{headers},
+       components:{headers,bankCard},
        created(){ //获取数据方法
           this.$http.get('/api/buy').then((response) => {
             response = response.body;
@@ -162,18 +180,27 @@
       height:100%;
       bottom:0;
       background-color:#fff;
-      z-index:15;
+      z-index:14;
       .buy-container
         position:fixed;
         width:100%;
         left:0;top:2.55rem;
         bottom:0;
         background-color:#fff;
-        z-index:15;
+        z-index:14;
         padding:0 15px;
         box-sizing:border-box;
         width:100%;
       .buy-box
+        .danger{
+          font-size:0.725rem;
+          color:$red;
+          line-height:1.5rem;
+          margin-top:0.5rem;
+          padding-left:25px;
+          background:url('img/danger.png') no-repeat left center;
+           background-size:1.1rem;
+          }
         .cinemaName
           margin-top:0.5rem;
           width:80%;
@@ -192,7 +219,7 @@
           margin-top:0.6rem;
           border-radius:5px;
           border:1px solid $color;
-          padding:0.5rem;
+          padding:0.2rem;
           background:#f3f9fd url('img/right.png') no-repeat 95% center;
           background-size:1rem;
           p
@@ -256,19 +283,17 @@
             padding-bottom:0.5rem;
         .showDate
           padding:0 15px;
+          padding-top:2.7rem;
           margin-left:-15px;
           margin-top:4rem;
           width:100%;
           position:relative;
-          border-bottom:1px solid #f1f1f1;
           .showTab
-            position:absolute;
-            top:2.5rem;
-            left:0;
             width:100%;
           .detail-date
+            position:absolute;
+            top:0;
             display:inline-block;
-            margin-right:1rem;
             line-height:2.5rem;
             &.active
               border-bottom:1px solid #ff4d64;
@@ -283,15 +308,18 @@
             padding:0 15px;
             line-height:2.5rem;
             border-bottom:1px solid #f1f1f1;
+            border-top:1px solid #f1f1f1;
             background:url('img/right.png') no-repeat 97% center;
             background-size:1rem;
           .info-box
             display:flex;
             justify-content:space-between;
             text-align:center;
-            padding:0.5rem 15px;
+            padding:0.5rem 0px;
             background-color:#fff;
             border-bottom:1px solid #f1f1f1;
+            .info-price-box
+              row:1;
             p
               line-height:1.8rem;
             .info-title

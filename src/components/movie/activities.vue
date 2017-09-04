@@ -1,6 +1,6 @@
 <template>
 	<div id="activities" v-if='!!activitiesTxt' class="activitiesDetail remove-nav">
-		<headerTemplate close='activitiesShow' title='活动说明'></headerTemplate>
+		<headerTemplate close='activitiesShow' isActive='true' title='活动说明'></headerTemplate>
 		<div id="activitiesContainer" class="activities-container">
 			<div class="activities-box">
 				<p class="activities-title">{{activitiesTxt[0].activityTag}}</p>

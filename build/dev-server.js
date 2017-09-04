@@ -26,10 +26,12 @@ var appData = require('../data.json'); //引入json文件
 var appBegin = require('../begin.json'); //引入json文件
 var appCinema = require('../cinema.json'); //引入json文件
 var appCinemaDetail = require('../cinemaDetail.json'); //引入json文件
+var appBankCard = require('../bankCard.json'); //引入json文件
 var data = appData.data;//接口一
 var begin = appBegin.data;//接口二
 var cinema = appCinema.data;//接口三
 var buy = appCinemaDetail.data;//接口四
+var bankCard = appBankCard.data;//接口五
 // 定义路由
 var apiRoutes = express.Router();
 // seller借口的读取数据
@@ -51,6 +53,11 @@ apiRoutes.get('/cinema',function(req,res){
 apiRoutes.get('/buy',function(req,res){
   res.json({
     data : buy
+  });
+});
+apiRoutes.get('/bank',function(req,res){
+  res.json({
+    data : bankCard
   });
 });
 
