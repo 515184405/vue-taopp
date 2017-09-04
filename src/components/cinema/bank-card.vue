@@ -47,7 +47,12 @@
 		},
 		components:{headerTemplate},
 		created(){ //获取数据方法
-          this.$http.get('/api/bank').then((response) => {
+          var href = location.href;
+		  var url = '/api/bank';
+          if(href.indexOf('taopp') != -1){
+            url = '/bankCard.json';
+          }
+          this.$http.get(url).then((response) => {
             response = response.body;
             if(response.data.returnCode == 0){
               this.banks = response.data.returnValue;

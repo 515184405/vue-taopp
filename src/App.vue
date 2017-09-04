@@ -30,7 +30,11 @@ export default {
   },
   components:{loader},
   watch:{//监听路由变化
-     "$route": "listenUrl"
+     "$route"(to,from){
+        if(to.path != from.path){
+          this.listenUrl();
+        }
+    }
   }
 }
 </script>

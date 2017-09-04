@@ -59,9 +59,13 @@
         }
       },
       created(){
-        this.$http.get('/api/begin').then((response) => {
+        var href = location.href;
+        var url = '/api/begin';
+        if(href.indexOf('taopp') != -1){
+          url = '/begin.json';
+        }
+        this.$http.get(url).then((response) => {
             response = response.body;
-            console.log(response.data.returnValue)
             if(response.data.returnCode == 0){
               var beginData = response.data.returnValue.soonShowGuideMap;
               this.movieList2 = response.data.returnValue.soonShows;

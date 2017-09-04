@@ -568,9 +568,9 @@ font-size:1.1em;}
 }
 /*城市弹层*/
 .container{width:100%;}
-.letter{width:auto;position:fixed;top:5%;right:10px;text-align:center;overflow:auto;}
+.letter{width:40px;;position:fixed;top:5%;right:0px;text-align:center;}
 .letter ul{list-style-type:none;}
-.letter ul li a{text-decoration:none;color:#00C7C7;font-size: 18px;}
+.letter ul li a{text-decoration:none;color:#00C7C7;font-size: 18px;padding:2px 8px;}
 .letter ul li{padding-bottom:5px;}
 .city{width:90%;overflow:hidden;}
 .city-list{width:100%;}

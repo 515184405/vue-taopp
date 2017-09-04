@@ -235,12 +235,16 @@
 	  		return week + "   " + monthDate;
 	  	}
 	  },
-	  created(){ //获取数据方法
-       this.$http.get('/api/cinema').then((response) => {
+	  created(){ //获取数据方法 var href = location.href;
+        var href = location.href;
+        var url = '/api/cinema';
+        if(href.indexOf('taopp') != -1){
+          url = '/cinema.json';
+        }
+        this.$http.get(url).then((response) => {
             response = response.body;
             if(response.data.returnCode == 0){
               this.cinemaList = response.data.returnValue;
-              console.log(this.cinemaList)
               this.dateSel = this.cinemaList.cinemaFilter.supportDates[0];
               this.$parent.loaderShow = false;
             }

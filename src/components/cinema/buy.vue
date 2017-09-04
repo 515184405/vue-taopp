@@ -154,7 +154,12 @@
        },
        components:{headers,bankCard},
        created(){ //获取数据方法
-          this.$http.get('/api/buy').then((response) => {
+        var href = location.href;
+        var url = '/api/buy';
+        if(href.indexOf('taopp') != -1){
+          url = '/cinemaDetail.json';
+        }
+        this.$http.get(url).then((response) => {
             response = response.body;
             if(response.data.returnCode == 0){
               this.buy = response.data.returnValue;

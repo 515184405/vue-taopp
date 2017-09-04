@@ -1,6 +1,6 @@
 <template>
    <div class="t-c hot-movie">
-               <swipe></swipe>
+               <swipe class='swipe'></swipe>
                <div v-for='(item,key) in movieList' class="movie-list">
                    <div class="movie-list-item">
                       <div class="movie-img-box">
@@ -50,11 +50,15 @@
         }
       },
       created(){
-       this.$http.get('/api/data').then((response) => {
+       var href = location.href;
+       var url = '/api/data';
+       if(href.indexOf('taopp') != -1){
+         url = '/data.json';
+       }
+       this.$http.get(url).then((response) => {
             response = response.body;
             if(response.data.returnCode == 0){
               this.movieList = response.data.returnValue;
-              console.log(this.movieList)
               this.$parent.$parent.loaderShow = false;
             }
           });
@@ -78,6 +82,8 @@
 .t-c{
   text-align:center;
 }
+.swipe
+  height:150px !important;
 .hot-movie
   .movie-list
     overflow:hidden;
