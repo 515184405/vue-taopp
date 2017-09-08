@@ -10,13 +10,13 @@
 
 ## 项目运行
  
-        git clone https://github.com/515184405/taopp.git
+          git clone https://github.com/515184405/taopp.git
 
-        cd vue-taopp
+          cd taopp(项目根目录)
 
-        npm install（安装相关依赖）
+          npm install（安装相关依赖）
 
-        npm run dev (运行项目)
+          npm run dev (运行项目)
       
 ## 说明
 >如果对您有帮助，您可以点右上角`Star`支持一下 谢谢</br>
