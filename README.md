@@ -26,3 +26,4 @@
 >[点击查看演示](http://taopp.035k.com)
 
 ### 移动端扫二维码
+>![扫一扫](http://taopp.035k.com/taopp.png)
