@@ -26,20 +26,20 @@
 </script>
 <style lang="stylus" rel='stylesheet/stylus'>
   .star{
-    height:10px;
+    height:0.8rem;
     position: relative;
     font-size:0;
     .star-box{
-      width:50px;
+      width:4.1rem;
       position: absolute;
       left:0;
       top:0;
     }
     .star-gray{
-      width:50px;
+      width:4.1rem;
       .star-item{
         background:url('img/star48_off@3x.png') no-repeat;
-        background-size:10px auto;
+        background-size:0.8rem auto;
       }
     }
     .star-mask{
@@ -47,18 +47,18 @@
       position: absolute;left:0;top:0;height:100%
     }
     .star-yellow{
-      height:10px;
-      width:50px;
+      height:0.8rem;
+      width:4.1rem;
       position: absolute;left:0;top:0;
       .star-item {
         background:url('img/star48_on@3x.png') no-repeat;
-        background-size:10px auto;
+        background-size:0.8rem auto;
       }
     }
     .star-item{
       display: inline-block;
-      height:10px;
-      width:10px;
+      height:0.8rem;
+      width:0.8rem;
       background-size: 10px auto;
       background-repeat: no-repeat;
     }

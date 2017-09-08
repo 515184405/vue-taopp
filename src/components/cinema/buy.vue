@@ -1,8 +1,10 @@
 <template>
+    <!-- 影院详情模块 -->
     <div class="buy" v-if='!!buyData'>
         <headers close='buyShow' isActive='false' :title='buyData.cinemaName'></headers>
         <div class="buy-container" id="buyContainer">
             <div class="buy-box">
+                <!-- 影院信息与银行卡活动信息 -->
                 <p class="cinemaName">地址 : {{buyData.address}}</p>
                 <p class="cinema-tag" v-if='buyData.displaySupports.length > 0'><span v-for='tag in buyData.displaySupports'>{{tag.name}}</span></p>
                 <p class="danger overflow-text">因抓取数据不足，有些数据未与影院关联，请见谅</p>
@@ -10,11 +12,13 @@
                     <p>{{buy.notifyBannerVos[0].tag}}</p>
                     <p>{{buy.notifyBannerVos[0].title}}</p>
                 </div>
+                <!-- 影院信息与银行卡活动信息 -->
+                <!-- 影院影片信息 -->
                 <div class="scroll-container" id="scrollContainer">
                     <div class="scroll-box" id="scrollBox">
                        <p @click='tabImg($event,index,show.showId)' class="showBox" v-for='(show,index) in buy.showVos'>
                           <span class="show-icon">{{show.activityTag}}</span>
-                          <img :class='{bigImg : index===activeImg}' class='showUrl' :src="'//gw.alicdn.com/'+show.poster+'_110x10000Q75.jpg'" alt="">
+                          <img :class='{bigImg : index===activeImg}' class='showUrl' v-lazy="'//gw.alicdn.com/'+show.poster+'_110x10000Q75.jpg'" alt="">
                        </p>
                     </div>
                 </div>
@@ -31,10 +35,12 @@
                       </p>
                     </template>
                  </div>
+                 <!-- 影院影片信息 -->
+                 <!-- 影片详情信息 -->
                  <div class="showDate" id="showDate" v-if='!!showId'>
                     <template  v-for='(detail,index) in buy.showScheduleMap[showId]'>
                        <p :style="position(index)" @click='tabTag(index)' :class='{active : dateSel === index }' class="detail-date">{{detail.dateDesc}}<i v-if='!!detail.activityTag' class="active-icon">{{detail.activityTag}}</i></p>
-                       <div class="showTab" v-show='index===dateSel'>
+                       <div class="showTab" v-show='index===dateSel' v-if='!!detail.scheduleVos.length'>
                           <div @click='activitiesShow' class="activies">
                               <span class="new-icon">{{buy.announceVos[0].tag}}</span>
                               <span class="new-right">{{buy.announceVos[0].title}}</span>
@@ -53,14 +59,22 @@
                                  <p><s>{{info.cinemaPrice | filterMoney}}元</s></p>
                               </div>
                               <div class="info-buy-box">
-                                <span class="info-buy">购买</span>
+                                <router-link to='/buy' class="info-buy">购买</router-link>
                               </div>
                           </div>
                        </div>
+                       <div v-else class="info-undefined">
+                         {{detail.dateDesc}}暂无场次
+                       </div>
                     </template>
                  </div>
+                 <!-- 影片详情信息 -->
+                <taoppIcon></taoppIcon>
             </div>
         </div>
+         <transition name='fade'>
+           <router-view></router-view>
+        </transition>
         <transition name='move'>
           <bankCard ref='bankCard' v-show='isbankCard'></bankCard>
         </transition>
@@ -68,26 +82,29 @@
 </template>
 <script>
     import headers from '@/components/header/header';
+    import taoppIcon from '@/components/taopp/taoppIcon';
     import bankCard from '@/components/cinema/bank-card';
     import BScroll from 'better-scroll';
+    import {getFontSize} from '@/common/js/getHtmlFontSize';
     export default {
       props:['buyData'],
        data(){
           return {
-            buy:'',
-            activeImg : 0,
-            showId : '',
-            dateSel : 0,
+            buy:'',  //总数据
+            activeImg : 0, //当前影片
+            showId : '',  //影片ID
+            dateSel : 0,  //date切换
             isbankCard : false, //联名卡信息是否显示
           }
        },
        methods:{
-          _initPic(){
+          _initPic(){//影片滚动代码
             if (this.buy.showVos) {
-              let imgWidth = 60;
-              let width = imgWidth * this.buy.showVos.length + window.innerWidth - imgWidth;
+              let imgWidth = 4.9;
+              let len = this.buy.showVos.length;
+              let width = imgWidth * len * getFontSize() + window.innerWidth - imgWidth * getFontSize();
               scrollBox.style.width = width + 'px';
-              scrollBox.style.marginLeft = (window.innerWidth/2 - imgWidth) + 'px';
+              scrollBox.style.marginLeft = (window.innerWidth/2 - imgWidth*getFontSize()/2 - 15) + 'px';
               this.$nextTick(()=>{
                 if(!this.picScroll){
                   this.picScroll = new BScroll(scrollContainer, {
@@ -102,15 +119,15 @@
           activitiesShow(){
             alert('暂未开放')
           },
-          bankCarcShow(){
+          bankCarcShow(){ //卡片信息显示模块
             this.isbankCard = true;
             this.$refs.bankCard._initScroll();
           },
-          position(index){
-            let width = 90;
+          position(index){//设置时间tab的定位
+            let width = 5.5 * getFontSize();
             return 'left:'+(width*index+15)+'px';
           },
-          _initScroll(){
+          _initScroll(){  //整体滚动模块
             this.$nextTick(()=>{
               if(!this.initScroll){
                 this.initScroll = new BScroll(buyContainer, {
@@ -122,20 +139,21 @@
               }
             })
           },
-          tabTag(index){
+          tabTag(index){  //时间选择切换
             this.dateSel = index;
           },
-          tabImg(event,index,showId){
-            let imgWidth = 76;
+          tabImg(event,index,showId){  //影片选择切换
+            this.dateSel = 0;
+            var imgWidth = 4.9;
             this.showId = showId;
-            scrollBox.style.transform = 'translate(-'+imgWidth*index+'px,0)';
+            scrollBox.style.transform = 'translate(-'+imgWidth*index*getFontSize()+'px,0)';
             if(event.target.className.indexOf('bigImg') != -1){
               alert(11)
             }
             this.activeImg = index;
           }
        },
-       filters:{
+       filters:{  //筛选器
           filterString(input,num){
           var strArr = input.split(',');
            for(var i = 0,str=''; i < strArr.length;i++){
@@ -152,7 +170,7 @@
             return parseInt(input)/100
           }
        },
-       components:{headers,bankCard},
+       components:{headers,bankCard,taoppIcon},
        created(){ //获取数据方法
         var href = location.href;
         var url = '/api/buy';
@@ -209,17 +227,18 @@
         .cinemaName
           margin-top:0.5rem;
           width:80%;
+          font-size:0.8rem;
           overflow: hidden;
           text-overflow: ellipsis;
           white-space: nowrap
         .cinema-tag
           margin-top:0.6rem;
           span 
+            font-size:0.8rem;
             border-radius:0.5rem;
             border:1px solid $color;
             color:$color;
             margin-right:5px;
-            font-size:10px;
         .cinema-banner
           margin-top:0.6rem;
           border-radius:5px;
@@ -233,7 +252,7 @@
             font-size:0.725rem;
         .scroll-container
           overflow:hidden;
-          height:128px;
+          height:8rem;
           width:100%;
           padding:0 15px;
           margin-left:-15px;
@@ -243,10 +262,12 @@
             margin-top:1rem;
             white-space:nowrap;
             .showUrl
-              height:96px;
+              height:6rem;
+              width:4.2rem
               margin-right:0.7rem;
             .bigImg
-              height:112px;
+              width:auto;
+              height:7rem;
             .showBox
               display:inline-block;
               position:relative;
@@ -298,6 +319,7 @@
           .detail-date
             position:absolute;
             top:0;
+            font-size:0.9rem;
             display:inline-block;
             line-height:2.5rem;
             &.active
@@ -344,4 +366,9 @@
               font-size:0.9rem;
               display:inline-block;
               margin-top:1.2rem;
+        .info-undefined
+          text-align:center;
+          line-height:2.5rem;
+          border-top:1px solid #f1f1f1;
+          margin-top:-2px;
 </style>

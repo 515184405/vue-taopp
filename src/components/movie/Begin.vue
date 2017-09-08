@@ -6,7 +6,7 @@
              <div class="movie-list">
                  <div class="movie-list-item">
                     <div class="movie-img-box">
-                        <img class="movie-img" :src="'https://gw.alicdn.com/'+item.poster+'_160x160Q75.jpg'" alt="">
+                        <img class="movie-img" v-lazy="'https://gw.alicdn.com/'+item.poster+'_160x160Q75.jpg'" alt="">
                     </div>
                     <div @click='movieProjectData(item)' class="movie-item">
                         <p class="movie-showName overflow-text"><span>{{item.showName}}</span></p>
@@ -26,7 +26,7 @@
              <div @click='movieProjectData(item)' class="movie-list">
                  <div class="movie-list-item">
                     <div class="movie-img-box">
-                        <img class="movie-img" :src="'https://gw.alicdn.com/'+item.poster+'_160x160Q75.jpg'" alt="">
+                        <img class="movie-img" v-lazy="'https://gw.alicdn.com/'+item.poster+'_160x160Q75.jpg'" alt="">
                     </div>
                     <div class="movie-item">
                         <p class="movie-showName overflow-text"><span>{{item.showName}}</span></p>
@@ -117,6 +117,7 @@
     color: #50505a;
     line-height:35px;
     padding:0 15px;
+    font-size:0.9rem;
     background:#F5F5F5;
     text-align:left;
     .dateTime
@@ -125,6 +126,7 @@
         font-size:0.75rem;
         margin-left:10px;
 .hot-movie
+  padding-bottom:51px;
   .movie-list
     overflow:hidden;
     border-bottom:1px solid #e1e1e1;
@@ -139,36 +141,35 @@
         position:absolute;
         top:15px;
         left:0;
-        height:90px;
-        width:65px;
+        width:3.5rem;
         .movie-img
            max-width:100%;
            max-height:100%
     .movie-item
       width:75%;
-      padding-left:75px;
-      height:90px;
+      padding-left:4rem;
       padding-right:15px;
       box-sizing:border-box;
       .movie-showName
+          font-size:0.9rem;
           color:#333;
           padding-top:3px;
       .movie-wantCount
           margin-top:10px;
-          font-size:0.7rem;
+          font-size:0.8rem;
           color:#fea54c;
       .movie-director
           margin-top:10px;
-          font-size:0.7rem;
+          font-size:0.8rem;
       .movie-leadingRole
-          font-size:0.7rem;
+          font-size:0.8rem;
           width:100%;
           margin-top:10px;
     .movie-activities
         margin-left:75px;
         line-height:36px;
         border-top:1px solid #e1e1e1;
-        font-size:0.7rem;
+        font-size:0.8rem;
         overflow: hidden;
         text-overflow:ellipsis;
         white-space: nowrap;
@@ -182,10 +183,10 @@
         border-radius: 4px;
         padding:5px 8px;
         display:inline;
-        font-size:0.7rem;
+        font-size:0.8rem;
         position:absolute;
         right:30px;
-        top:45px;
+        top:2.4rem;
     .btn-advance
         border: 1px solid #37b7ff;
         color: #37b7ff;

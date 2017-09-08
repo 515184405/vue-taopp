@@ -508,18 +508,19 @@
 
 .logo
   padding:2px;
-  height:22px;
-  width:22px;
+  height:1.3rem;
+  width:1.3rem;
   border-radius:4px;
   background:#90B4FC;
-  margin:7px 15px;
+  margin:0.3rem 15px;
 .movie-localtion{
     max-width:70px;
+    font-size:0.8rem;
     display:inline-block;
-    line-height:40px;
-    padding-right:18px;
+    line-height:1.9rem;
+    padding-right:1.1rem;
     background:url('./img/down.png') no-repeat right center;
-    background-size:12px auto;
+    background-size:0.7rem auto;
     color:$color;
 }
 

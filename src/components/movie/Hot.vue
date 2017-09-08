@@ -4,7 +4,7 @@
                <div v-for='(item,key) in movieList' class="movie-list">
                    <div class="movie-list-item">
                       <div class="movie-img-box">
-                          <img class="movie-img" :src="'https://gw.alicdn.com/'+item.poster+'_160x160Q75.jpg'" alt="">
+                          <img class="movie-img" v-lazy="'https://gw.alicdn.com/'+item.poster+'_160x160Q75.jpg'" alt="">
                       </div>
                       <div @click='movieProjectData(item)' class="movie-item">
                           <p class="movie-showName overflow-text"><span>{{item.showName}}</span></p>
@@ -30,7 +30,7 @@
                   <detail v-show='detailShow' :movieProject='movieProject'></detail>
               </transition>
                <transition name='move'>
-                  <activities v-show='activitiesShow' :activitiesTxt='activitiesTxt'></activities>
+                  <activities ref='activities' v-show='activitiesShow' :activitiesTxt='activitiesTxt'></activities>
               </transition>
           </div>
 </template>
@@ -83,8 +83,16 @@
   text-align:center;
 }
 .swipe
-  height:150px !important;
+  height:10rem !important;
+.movie-star-box
+  margin-top:10px;
+  position:relative;
+  .movie-score
+    position:absolute;
+    top:0rem;
+    left:4.5rem;
 .hot-movie
+  padding-bottom:51px;
   .movie-list
     overflow:hidden;
     border-bottom:1px solid #e1e1e1;
@@ -99,47 +107,38 @@
         position:absolute;
         top:15px;
         left:0;
-        height:90px;
-        width:65px;
+        width:3.5rem;
         .movie-img
            max-width:100%;
            max-height:100%
     .movie-item
       width:75%;
-      padding-left:75px;
-      height:90px;
+      padding-left:4rem;
       padding-right:15px;
       box-sizing:border-box;
       .movie-showName
+          font-size:0.9rem;
           color:#333;
           padding-top:3px;
-      .movie-star-box
-          position:relative;
-          .movie-star
-              width:50px;
-              margin-top:10px;
-          .movie-score
-              position:absolute;
-              left:60px;
-              top:10px;
-              font-size:10px;
+      .movie-wantCount
+          margin-top:10px;
+          font-size:0.8rem;
+          color:#fea54c;
       .movie-director
           margin-top:10px;
-          font-size:0.7rem;
+          font-size:0.8rem;
       .movie-leadingRole
-          font-size:0.7rem;
+          font-size:0.8rem;
           width:100%;
           margin-top:10px;
     .movie-activities
-        margin-left:75px;
+        margin-left:4rem;
         line-height:36px;
         border-top:1px solid #e1e1e1;
-        font-size:0.7rem;
-        padding-right:20px;
-        margin-right:15px;
-        box-sizing:border-box;
-        background:url('img/right.png') no-repeat right center;
-        background-size:12px auto;
+        font-size:0.8rem;
+        overflow: hidden;
+        text-overflow:ellipsis;
+        white-space: nowrap;
         .activityExtTagMap
             color:#fea54c;
         .activities_line
@@ -150,10 +149,10 @@
         border-radius: 4px;
         padding:5px 8px;
         display:inline;
-        font-size:0.7rem;
+        font-size:0.8rem;
         position:absolute;
         right:30px;
-        top:45px;
+        top:2.4rem;
     .btn-advance
         border: 1px solid #37b7ff;
         color: #37b7ff;
@@ -169,10 +168,10 @@
         background:$color;
         transform:rotate(45deg);
     .today-hot,.week-hot
-        width:25px;
+        width:1.5rem;
         position:absolute;
         top:0;
         right:55px;
     .today-hot
-        right:85px;
+        right:5.3rem;
 </style>

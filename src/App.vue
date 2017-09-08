@@ -39,7 +39,7 @@ export default {
 }
 </script>
 
-<style lang="stylus" rel="stylesheet/stylus" scoped>
+<style lang="stylus" rel="stylesheet/stylus">
 @import './common/css/transition.styl';
 #app {
   -webkit-font-smoothing: antialiased;
@@ -50,7 +50,6 @@ export default {
   font-size: 0;
   position: fixed;
   bottom:0;
-  height:47px;
   padding-top:3px;
   background: #fff;
   left:0;
@@ -68,6 +67,7 @@ export default {
   background-repeat: no-repeat;
   background-size: 24px 24px;
   background-position: center top;
+  padding-bottom: 0.2rem;
 }
 .footer-item.router-link-active{
   color:#90B4FC;
@@ -90,4 +90,6 @@ export default {
     background-image: url('./common/img/user_active.png');
   }
 }
+
+
 </style>

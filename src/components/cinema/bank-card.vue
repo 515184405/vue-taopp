@@ -1,4 +1,5 @@
 <template>
+	<!-- 卡片模块 -->
 	<div id="backCard" class="back-card remove-nav">
 		<headerTemplate close='isbankCard' isActive='true' title='淘票票银行活动'></headerTemplate>
 		<div id="activitiesContainer" class="activities-container">
@@ -30,7 +31,7 @@
 			}
 		},
 		methods:{
-			_initScroll(){
+			_initScroll(){ //滚动操作
 	  			this.$nextTick(() => { 
 	  				if(!this.detailScroll){
 		  				this.detailScroll = new BScroll(activitiesContainer, {
@@ -73,7 +74,7 @@
 		box-sizing:border-box;
 		position:fixed;
 		left:0;
-		top:40px;
+		top:2.5rem;
 		bottom:0;
 		width:100%;
 	.back-card
@@ -126,4 +127,5 @@
 				border-radius:3px;
 				border:1px solid $red;
 				color:$red;
+				font-size:0.8rem;
 </style>

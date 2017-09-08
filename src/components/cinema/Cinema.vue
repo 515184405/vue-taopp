@@ -77,6 +77,7 @@
 	import search from '@/components/cinema/search';
 	import BScroll from 'better-scroll';
 	import buy from '@/components/cinema/buy';
+	import {getFontSize} from '@/common/js/getHtmlFontSize';
 	export default {
 	  data(){
 	  	return {
@@ -195,8 +196,10 @@
 	  	},
 	  	_initPic(){  //日期滚动方法
 	        if (this.cinemaList.cinemaFilter) {
-	          let picWidth = 90;
-	          let width = picWidth * this.cinemaList.cinemaFilter.supportDates.length;
+	          let picWidth = 4.16;
+	          let margin = 15;
+	          let len = this.cinemaList.cinemaFilter.supportDates.length;
+	          let width = picWidth * len * getFontSize() + margin*len;
 	          dateBox.style.width = width + 'px';
 	          this.$nextTick(()=>{
 	            if(!this.picScroll){
@@ -271,7 +274,7 @@
 .cinema-container
 	position:fixed;
 	left:0;
-	top:81px;
+	top:4.1rem;
 	width:100%;
 	overflow:hidden;
 	bottom:51px;
@@ -283,12 +286,12 @@
 		top:0;
 		z-index:12;
 		background:#fff;
-		height:40px;
+		height:2rem;
 		width:100%;
 		border-bottom:1px solid #f1f1f1;
 		.hot-screen,.begin-screen{
 			margion-top:2px;
-			padding:2px 10px 2px 20px;
+			padding:2px 10px 2px 1.3rem;
 			display:inline-block;
 			font-size:0.875rem;
 			margin-top:10px;
@@ -300,7 +303,7 @@
 		.begin-screen
 			background:url('./img/search.png') no-repeat 5px center;
 			background-size:1.2rem;
-			padding-left:25px;
+			padding-left:1.3rem;
 			border-left:1px solid #f1f1f1;
 		.selector
 			color:$color;
@@ -323,6 +326,7 @@
 		.cinema-title
 			width:100%;
 			margin-top:0.6rem;
+			font-size:0.75rem;
 			.cinema-name
 				font-size:1rem;
 				font-weight:bold;
@@ -331,6 +335,7 @@
 				display:inline-block;
 			.cinema-money
 				color:$red;
+				font-size:1rem;
 		.cinema-dress
 			font-size:0.75rem;
 			margin-top:0.6rem;
@@ -343,9 +348,9 @@
 				border-radius:0.5rem;
 				border:1px solid $color;
 				color:$color;
+				font-size:0.75rem;
 				padding: 0 3px;
 				margin-right:5px;
-				font-size:10px;
 		.cinema-newPeople
 			margin-top:0.6rem;
 			.activities-icon
@@ -360,19 +365,19 @@
 	.dateSelect
 		position:fixed;
 		left:0;
-		top:41px;
+		top:2rem;
 		right:0;
 		z-index:1;
 		background:#fff;
 		border-bottom:1px solid #f1f1f1;
-		line-height:2.4rem;
+		line-height:2.1rem;
 		overflow:hidden;
 		.date-box
 			 white-space:nowrap;
 		.date-day{
 			padding-bottom:2px;
 			display:inline-block;
-			width:75px;
+			width:4.16rem;
 			margin-left:15px;
 			text-align:center;
 			font-size:0.9rem;

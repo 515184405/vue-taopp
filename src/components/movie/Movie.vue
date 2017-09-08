@@ -29,10 +29,8 @@ export default {
 .movie
 	color:#595757;
 	.movie-header
-		height:40px;
 		.hot-screen,.begin-screen{
-			margion-top:2px;
-			padding:12px 15px;
+			padding:0.55rem 15px;
 			display:inline-block;
 			font-size:0.875rem;
 			&.router-link-exact-active{

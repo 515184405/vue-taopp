@@ -5,10 +5,10 @@
 			<div class="detail-container">
 				<div class="detail-msg">
 					<div class="detail-msg-info">
-						<img v-if='!!movieProject.poster' class="detail-msg-img" :src="'//gw.alicdn.com/'+movieProject.poster+'_400x400Q30s150.jpg'" alt="">
+						<img v-if='!!movieProject.poster' class="detail-msg-img" v-lazy="'//gw.alicdn.com/'+movieProject.poster+'_400x400Q30s150.jpg'" alt="">
 						<div class="detail-msg-box">
-							<p class="showName  overflow-text"><span v-if='!!movieProject.showName' class="showName-title">{{description(movieProject.showName,6)}}</span><span class="showName-icon" v-if='!!movieProject.showMark'>{{movieProject.showMark}}</span></p>
-							<p class="showNameEn">{{movieProject.showNameEn}}</p>
+							<p class="showName overflow-text"><span v-if='!!movieProject.showName' class="showName-title">{{description(movieProject.showName,6)}}</span><span class="showName-icon" v-if='!!movieProject.showMark'>{{movieProject.showMark}}</span></p>
+							<p class="showNameEn overflow-text">{{movieProject.showNameEn}}</p>
 							<ul class="movie-msg">
 								<li>{{movieProject.type}}</li>
 								<li>{{movieProject.country}} | {{movieProject.duration}}分钟</li>
@@ -32,7 +32,7 @@
 					<div class="pics" id="picDom">
 		                <ul class="pics-list" id="picsList">
 		                    <li class="pics-item"  v-for='artist in movieProject.trailer'>
-		                      <img :src="'//gw.alicdn.com/'+artist+'_160x160Q30s150.jpg'"  height="102" width="74" alt=""/>
+		                      <img v-lazy="'//gw.alicdn.com/'+artist+'_160x160Q30s150.jpg'" height='90' width="140" alt=""/>
 		                    </li>
 		                </ul>
 		            </div>
@@ -53,7 +53,7 @@
 					<p class="house-btn">查看票房详情</p>
 				</div>
 				<_line></_line>
-				<div class="movie-artist-list">
+				<div class="movie-artist-list pdm">
 					<p class="movie-artist-title">热门影评</p>
 					<p class="null">暂无</p>
 					<p class="hotWan">因json没有数据</p>
@@ -61,9 +61,12 @@
 				<_line></_line>
 			</div>
 		</div>
-		<div class="buy-p">
+		<router-link to='/buy' class="buy-p">
 			选座购票
-		</div>
+		</router-link>
+		<transition name='fade'>
+			<router-view></router-view>
+		</transition>
 	</div>
 </template>
 <script>
@@ -109,7 +112,7 @@
 		  	},
      		 _initPic(){
 		        if (this.movieProject.trailer) {
-		          let picWidth = 74;
+		          let picWidth = 140;
 		          let margin = 6;
 		          let width = (picWidth + margin) * this.movieProject.trailer.length - margin;
 		          picsList.style.width = width + 'px';
@@ -138,6 +141,7 @@
 </script>
 <style lang="stylus" rel="stylesheet/stylus" scoped>
 @import '../../common/css/transition.styl';
+
 	.detail-box
 		position:fixed;
 		left:0;
@@ -156,18 +160,16 @@
 		.detail-msg
 			position:relative;
 			background:#333;
-			padding-top:25px;
-			height:200px;
+			padding-top:1.2rem;
+			height:11rem;
 		.detail-msg-img
-			width:120px;
+			width:6rem;
 			padding:0 15px;
 			position:absolute;
 			left:0;
 			top:30px;
 		.detail-msg-box
-
-
-			padding-left:150px;
+			padding-left:7.5rem;
 			box-sizing:border-box;
 			text-align:left;
 			.showName
@@ -181,7 +183,7 @@
 					font-size:10px;
 					border-radius:3px;
 					padding:0 2px;
-					line-height:16px;
+					line-height:1rem;
 					border:1px solid #aaa;
 					color:#aaa;
 					margin-left:10px;
@@ -220,6 +222,7 @@
 				font-size:1;
 				text-align:left;
 				padding:15px 0;
+				font-size:1rem;
 			}
 			.artist-photo{
 				display:inline-block;
@@ -259,12 +262,14 @@
 			padding:1.2rem 0;
 		.buy-p
 			background:$red;
-			height:51px;
-			line-height:51px;
+			height:3.5rem;
+			line-height:3.5rem;
 			color:#fff;
 			position:fixed;
 			left:0;
 			bottom:0;
 			width:100%;
 			font-size:1.2rem;
+		.pdm
+			padding-bottom:3rem;
 </style>

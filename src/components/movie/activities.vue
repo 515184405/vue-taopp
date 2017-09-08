@@ -38,6 +38,8 @@
 	}
 </script>
 <style lang="stylus" rel="stylesheet/stylus" scoped>
+	.activities-box
+		padding-bottom:60px;
 	.activities-container
 		padding:15px;
 		box-sizing:border-box;
@@ -68,5 +70,6 @@
 		.activities-detail
 			line-height:1.4rem;
 			p
+				font-size:0.7rem;
 				margin-top:15px;
 </style>

@@ -37,14 +37,14 @@ export default {
 	width:100%;
 	z-index:13;
 	background-color:#fff;
-	height:2.5rem;
+	height:2rem;
 	.search-box
 		padding-right:80px;
 		padding-left:15px;
 		box-sizing:border-box;
    		.search-input
 			width:100%;
-			margin-top:0.4rem;
+			margin-top:0.15rem;
 			box-sizing:border-box;
 			height:1.7rem;
 			padding-left:30px;
@@ -66,6 +66,6 @@ export default {
 			font-size:0.9rem;
 			color:$color;
    			font-family: 'PingFang SC','STHeitiSC-Light',"Microsoft YaHei",Arial,"Helvetica Neue",Helvetica,sans-serif;
-			height:2.5rem;
+			height:2rem;
 		}
 </style>
