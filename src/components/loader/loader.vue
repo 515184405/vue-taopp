@@ -18,5 +18,6 @@
 	  width:100%;
 	  height:100%;
 	  background:#ECE8DE url('../../common/img/loader.gif') no-repeat center center;
+	  background-size:11rem auto;
 	}
 </style>

@@ -517,7 +517,7 @@
     max-width:70px;
     font-size:0.8rem;
     display:inline-block;
-    line-height:1.9rem;
+    line-height:2rem;
     padding-right:1.1rem;
     background:url('./img/down.png') no-repeat right center;
     background-size:0.7rem auto;

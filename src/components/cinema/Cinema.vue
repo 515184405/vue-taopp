@@ -110,6 +110,8 @@
 	  		this.selectArr = [];
 	  		this.selectEndArr = '';
 	  		this.selectName = '';
+	  		this.$refs.selector.selectArr = [];
+	  		this.$refs.selectEndArr.selectArr = [];
 	  	},
 	  	dateTab(index,dates){ //日期tab选项方法
 	  		this.dateSelectActive = index;
@@ -325,11 +327,12 @@
 		margin-left:15px;
 		.cinema-title
 			width:100%;
-			margin-top:0.6rem;
+			margin-top:0.5rem;
 			font-size:0.75rem;
 			.cinema-name
 				font-size:1rem;
 				font-weight:bold;
+				line-height:1.1rem;
 				width:50%;
 				color:#333;
 				display:inline-block;
@@ -338,7 +341,8 @@
 				font-size:1rem;
 		.cinema-dress
 			font-size:0.75rem;
-			margin-top:0.6rem;
+			margin-top:0.5rem;
+			line-height:0.85rem;
 		.cinema-time
 			margin-top:0.6rem;
 			font-size:0.75rem;

@@ -146,10 +146,11 @@
             this.dateSel = 0;
             var imgWidth = 4.9;
             this.showId = showId;
-            scrollBox.style.transform = 'translate(-'+imgWidth*index*getFontSize()+'px,0)';
             if(event.target.className.indexOf('bigImg') != -1){
               alert(11)
+              return;
             }
+            this.picScroll.scrollTo(-imgWidth*index*getFontSize(),500)
             this.activeImg = index;
           }
        },

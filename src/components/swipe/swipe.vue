@@ -29,7 +29,6 @@ export default {
 </script>
 <style>
 .my-swipe {
-  height: 150px;
   color: #fff;
   font-size: 30px;
   text-align: center;

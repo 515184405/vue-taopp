@@ -338,7 +338,7 @@ export default {
       border:0;
     }
     .reset-icon{
-      padding-right:1.5rem
+      padding-right:1rem
       background:url('img/reset.png') no-repeat right center;
       background-size:contain;
     }
