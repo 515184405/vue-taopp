@@ -13,7 +13,7 @@
 
 ## 项目运行
  
-          git clone https://github.com/515184405/taopp.git
+          git clone https://github.com/515184405/vue-taopp
 
           cd taopp(项目根目录)
 
