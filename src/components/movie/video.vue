@@ -4,35 +4,39 @@
       <transition name='fade'>
         <myVideo class='myVideo' v-if='!!preview' :sources="video.sources" :options="video.options"></myVideo>
       </transition>
-      <div class="movie-msg">
+      <div id="detailBox" class='detailBox'>
           <div>
-              <p>
-                <span class="showName">{{preview.showName}}</span>
-                <star class='movie-star' :score='preview.remark'></star>
-                <span class="movie-score">{{preview.remark}}</span>
-              </p>
-              <p class="loadingRole">{{preview.leadingRole}}</p>
-          </div>
-          <div>
-              <router-link to='/cinema' v-if='preview.soldType == "NORMAL"' class="buy-btn">购票</router-link>
-              <router-link to='/cinema' v-if='preview.soldType == "PRE"' class="buy-btn btn-advance">预售</router-link>
+              <div class="movie-msg">
+                <div>
+                    <p>
+                      <span class="showName">{{preview.showName}}</span>
+                      <star class='movie-star' :score='preview.remark'></star>
+                      <span class="movie-score">{{preview.remark}}</span>
+                    </p>
+                    <p class="loadingRole">{{preview.leadingRole}}</p>
+                </div>
+                <div>
+                    <router-link to='/cinema' v-if='preview.soldType == "NORMAL"' class="buy-btn">购票</router-link>
+                    <router-link to='/cinema' v-if='preview.soldType == "PRE"' class="buy-btn btn-advance">预售</router-link>
+                </div>
+            </div>
+            <div class="movie-artist-list">
+                <p class="movie-artist-title">剧照</p>
+                <div class="pics" id="picDom">
+                    <ul class="pics-list" id="picsList">
+                        <li class="pics-item"  v-for='artist in preview.trailer'>
+                          <img v-lazy="'//gw.alicdn.com/'+artist+'_160x160Q30s150.jpg'" height='90' width="140" alt=""/>
+                        </li>
+                    </ul>
+                </div>
+              </div>
+              <!-- <div class="movie-artist-list pdm">
+                <p class="movie-artist-title">热门影评</p>
+                <p class="null">暂无</p>
+                <p class="hotWan">评论内容</p>
+              </div> -->
           </div>
       </div>
-      <div class="movie-artist-list">
-          <p class="movie-artist-title">剧照</p>
-          <div class="pics" id="picDom">
-              <ul class="pics-list" id="picsList">
-                  <li class="pics-item"  v-for='artist in preview.trailer'>
-                    <img v-lazy="'//gw.alicdn.com/'+artist+'_160x160Q30s150.jpg'" height='90' width="140" alt=""/>
-                  </li>
-              </ul>
-          </div>
-        </div>
-        <div class="movie-artist-list pdm">
-          <p class="movie-artist-title">热门影评</p>
-          <p class="null">暂无</p>
-          <p class="hotWan">因json没有数据</p>
-        </div>
 	</div>
 </template>
 
@@ -69,6 +73,17 @@ export default {
     }
   },
   methods:{
+    _initDetailScroll(){
+        this.$nextTick(() => { 
+          if(!this.detailScroll){
+            this.detailScroll = new BScroll(detailBox, {
+              click : true,
+            }) 
+          }else{
+            this.detailScroll.refresh();
+          }
+        })
+      },
     _initPic(){
       if (this.preview.trailer) {
         let picWidth = 140;
@@ -93,6 +108,7 @@ export default {
   },
   updated(){
     this._initPic();
+    this._initDetailScroll();
   },
   components:{
     myVideo,
@@ -184,4 +200,9 @@ export default {
     font-size:1.5rem;
   .hotWan
     padding:1.2rem 0;
+  .detailBox
+    position:absolute;
+    left:0;
+    right:0;
+    width:100%;
 </style>

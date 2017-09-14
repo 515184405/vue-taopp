@@ -34,7 +34,7 @@
                   <activities ref='activities' v-show='activitiesShow' :activitiesTxt='activitiesTxt'></activities>
               </transition>
               <transition name='fade'>
-                  <videoModule :preview = 'preview' v-show='videoModuleShow'></videoModule>
+                  <videoModule ref='videoModule' :preview = 'preview' v-show='videoModuleShow'></videoModule>
               </transition>
           </div>
 </template>
@@ -79,6 +79,7 @@
         showVideo(data){ //给video传输数据
           this.preview = data;
           this.videoModuleShow = true;
+          this.$refs.videoModule._initDetailScroll()
         },
         activitiesDetailShow(data){
           this.activitiesTxt = data;

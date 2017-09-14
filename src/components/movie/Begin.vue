@@ -5,8 +5,9 @@
             <div class="movie-begin" v-for='item in movieList2' v-if='dateTime == item.openTime'>
              <div class="movie-list">
                  <div class="movie-list-item">
-                    <div class="movie-img-box">
+                    <div @click='showVideo(item)' class="movie-img-box">
                         <img class="movie-img" v-lazy="'https://gw.alicdn.com/'+item.poster+'_160x160Q75.jpg'" alt="">
+                        <img src="./img/player.png" class="player" alt="播放icon">
                     </div>
                     <div @click='movieProjectData(item)' class="movie-item">
                         <p class="movie-showName overflow-text"><span>{{item.showName}}</span></p>
@@ -23,12 +24,13 @@
       <div class="movie-begin" v-for='(items,key) in movieList'>
            <p class="movie-date"><span>{{key}}</span><span>待定</span></p>
           <template v-for='(item,index) in items'>
-             <div @click='movieProjectData(item)' class="movie-list">
+             <div class="movie-list">
                  <div class="movie-list-item">
-                    <div class="movie-img-box">
+                    <div @click='showVideo(item)' class="movie-img-box">
                         <img class="movie-img" v-lazy="'https://gw.alicdn.com/'+item.poster+'_160x160Q75.jpg'" alt="">
+                        <img src="./img/player.png" class="player" alt="播放icon">
                     </div>
-                    <div class="movie-item">
+                    <div @click='movieProjectData(item)' class="movie-item">
                         <p class="movie-showName overflow-text"><span>{{item.showName}}</span></p>
                         <p class="movie-star-box overflow-text"></p>
                         <p class="movie-director overflow-text">导演 ：{{item.director}} </p>
@@ -44,10 +46,14 @@
       <transition name='move'>
           <detail v-show='detailShow' :movieProject='movieProject'></detail>
       </transition>
+       <transition name='fade'>
+          <videoModule ref='videoModule' :preview = 'preview' v-show='videoModuleShow'></videoModule>
+      </transition>
   </div>
 </template>
 <script>
   import detail from '@/components/movie/detail';
+  import videoModule from '@/components/movie/video';
   export default {
       data(){
         return {
@@ -56,6 +62,8 @@
            removal : [],
            movieProject : '',
            detailShow : false,
+           preview : '',//video是否显示
+           videoModuleShow : false,
         }
       },
       created(){
@@ -86,6 +94,11 @@
                 return ((x < y) ? -1 : ((x > y) ? 1 : 0));
             });
         },
+        showVideo(data){ //给video传输数据
+          this.preview = data;
+          this.videoModuleShow = true;
+          this.$refs.videoModule._initDetailScroll()
+        },
         dateRemoval(){
            var len = this.movieList2.length;
            for(var i=0;i < len; i++){
@@ -105,7 +118,7 @@
             return show_day[new Date(val).getDay()];
          }
       },
-      components:{detail},
+      components:{detail,videoModule},
   }
 </script>
 <style lang="stylus" rel="stylesheet/stylus" scoped>
@@ -142,6 +155,13 @@
         top:15px;
         left:0;
         width:3.5rem;
+        .player
+            width:1.5rem;
+            position:absolute;
+            top:50%;
+            left:50%;
+            margin-left:-0.75rem;
+            margin-top:-0.75rem;
         .movie-img
            max-width:100%;
            max-height:100%
