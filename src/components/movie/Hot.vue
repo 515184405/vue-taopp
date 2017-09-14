@@ -3,8 +3,9 @@
                <swipe class='swipe'></swipe>
                <div v-for='(item,key) in movieList' class="movie-list">
                    <div class="movie-list-item">
-                      <div class="movie-img-box">
+                      <div @click='showVideo(item)' class="movie-img-box">
                           <img class="movie-img" v-lazy="'https://gw.alicdn.com/'+item.poster+'_160x160Q75.jpg'" alt="">
+                          <img src="./img/player.png" class="player" alt="播放icon">
                       </div>
                       <div @click='movieProjectData(item)' class="movie-item">
                           <p class="movie-showName overflow-text"><span>{{item.showName}}</span></p>
@@ -32,12 +33,16 @@
                <transition name='move'>
                   <activities ref='activities' v-show='activitiesShow' :activitiesTxt='activitiesTxt'></activities>
               </transition>
+              <transition name='fade'>
+                  <videoModule :preview = 'preview' v-show='videoModuleShow'></videoModule>
+              </transition>
           </div>
 </template>
 <script>
   import detail from '@/components/movie/detail';
   import activities from '@/components/movie/activities';
   import swipe from "@/components/swipe/swipe";
+  import videoModule from '@/components/movie/video';
   import star from '@/components/star/star';
   export default {
       data(){
@@ -47,6 +52,8 @@
            detailShow : false,
            activitiesTxt : "",
            activitiesShow :false,
+           preview : '',//video是否显示
+           videoModuleShow : false,
         }
       },
       created(){
@@ -69,12 +76,16 @@
            this.detailShow = true;
            this.movieProject = data;
         },
+        showVideo(data){ //给video传输数据
+          this.preview = data;
+          this.videoModuleShow = true;
+        },
         activitiesDetailShow(data){
           this.activitiesTxt = data;
           this.activitiesShow = true;
         }
       },
-      components:{swipe,star,detail,activities},
+      components:{swipe,star,detail,activities,videoModule},
   }
 </script>
 <style lang="stylus" rel="stylesheet/stylus" scoped>
@@ -111,6 +122,13 @@
         .movie-img
            max-width:100%;
            max-height:100%
+        .player
+          width:1.5rem;
+          position:absolute;
+          top:50%;
+          left:50%;
+          margin-left:-0.75rem;
+          margin-top:-0.75rem;
     .movie-item
       width:75%;
       padding-left:4rem;

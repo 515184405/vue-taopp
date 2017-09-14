@@ -272,7 +272,7 @@ export default {
       }
     }
     .alertSelSeat{
-      padding:10% 0;
+      padding:3rem 0;
       position:fixed;
       left:0;
       bottom:0;

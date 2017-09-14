@@ -17,7 +17,7 @@ Vue.use(VueResource)
 Vue.use(VueLazyload, {
   preLoad: 1.3,
   error: '../static/img/taopp-max.png',
-  loading: '../static/img/loading.gif',
+  loading: '../static/img/taopp-max.png',
   attempt: 1
 })
 

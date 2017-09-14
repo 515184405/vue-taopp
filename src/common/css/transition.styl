@@ -13,6 +13,14 @@
    opacity:0
 }
 
+.loader-enter-active, .loader-leave-active {
+  transition: opacity 0.5s ease-out;
+  opacity:1;
+}
+.loader-enter, .loader-leave-active {
+   opacity:0
+}
+
 .slideDown-enter-active, .slideDown-leave-active {
   transition: transform 0.2s ease-out;
 }

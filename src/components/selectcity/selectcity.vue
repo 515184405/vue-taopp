@@ -479,13 +479,14 @@
 	export default{
     data(){
       return{
-        localtion:'北京',
+        localtion:'',
         isSelect : false,
       }
     },
 		methods : {
 			selectEvent(event){
 				this.localtion = event.target.innerHTML;
+        sessionStorage.setItem("cityName",this.localtion);
 				this.isSelect = false;
 			},
       showSelect(){
@@ -501,6 +502,14 @@
 				},500)
 			}
 		},
+    mounted(){
+      var selCity = sessionStorage.getItem("cityName");
+      if(!!selCity){
+        this.localtion = selCity;
+        return;
+      }
+      this.localtion = remote_ip_info['city'];
+    }
 	}
 </script>
 <style lang="stylus" rel="stylesheet/stylus" scoped>

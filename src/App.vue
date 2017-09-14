@@ -8,7 +8,7 @@
           <router-link class="footer-item" to='/cinema'>影院</router-link>
           <router-link class="footer-item" to='/user'>我的</router-link>
       </div>
-      <transition name='fade'>
+      <transition name='loader'>
         <loader v-if='loaderShow'></loader>
       </transition>
   </div>
