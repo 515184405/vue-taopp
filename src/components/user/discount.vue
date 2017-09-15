@@ -5,7 +5,7 @@
           <div class="discount-item" v-for='money in moneys'>
               <div class="discount-msg">
                   <p class="discount-title">淘票票用户回馈代金券</p>
-                  <p class="discount-rule">发放后30天内有效|不可和活动票叠加使用</p>
+                  <p class="discount-rule overflow-text">发放后30天内有效|不可和活动票叠加使用</p>
                   <p class="discount-time">有效期至 ：2017-03-15</p>
               </div>
               <div class="discount-money">
@@ -58,6 +58,7 @@ export default {
           margin-top:0.5rem;
         .discount-msg
           flex:1;
+          width:0;
           border-right:1px dotted #aaa;
         .discount-money
           position:relative;

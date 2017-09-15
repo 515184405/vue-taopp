@@ -14,10 +14,11 @@
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="stylus" rel="stylesheet/stylus" scoped>
-.appLoader
+.appLoader{
 	position:fixed;
 	left:50%;
 	top:50%;
+  z-index:999;
 	margin-left:-2.8rem;
 	margin-top:-2.8rem;
 	width:5.6rem;
@@ -26,8 +27,9 @@
 	border-radius:5px;
 	color:#fff;
 	text-align:center;
-	.loader-txt
-		margin-top:0.5rem;
+}
+.loader-txt
+	margin-top:0.5rem;
 .appLoader .loader {
   font-size: 10px;
   text-indent: -9999em;

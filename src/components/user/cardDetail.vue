@@ -262,6 +262,7 @@ export default {
 			line-height:0.8rem;
 			li
 				margin-top:0.5rem;
+				line-height:1.1rem;
 	.removeOrder{
 		margin:1rem;
 		box-sizing:border-box;

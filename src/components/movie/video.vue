@@ -1,13 +1,13 @@
 <template>
 	<div class="video" v-if='!!preview'>
       <headerTemplate close='preview' :isActive='true' :title='preview.preview[0].title'></headerTemplate>
-      <transition name='fade'>
-        <myVideo class='myVideo' v-if='!!preview' :sources="video.sources" :options="video.options"></myVideo>
+      <transition name='slideDown'>
+        <myVideo class='myVideo' v-if='!!video.sources[0].src && !!video.options.poster' :sources="video.sources" :options="video.options"></myVideo>
       </transition>
-      <div id="detailBox" class='detailBox'>
+      <div id="detailBox2" class='detailBox2'>
           <div>
               <div class="movie-msg">
-                <div>
+                <div class="movie-top">
                     <p>
                       <span class="showName">{{preview.showName}}</span>
                       <star class='movie-star' :score='preview.remark'></star>
@@ -22,19 +22,19 @@
             </div>
             <div class="movie-artist-list">
                 <p class="movie-artist-title">剧照</p>
-                <div class="pics" id="picDom">
-                    <ul class="pics-list" id="picsList">
+                <div class="pics" id="picDom2">
+                    <ul class="pics-list" id="picsList2">
                         <li class="pics-item"  v-for='artist in preview.trailer'>
                           <img v-lazy="'//gw.alicdn.com/'+artist+'_160x160Q30s150.jpg'" height='90' width="140" alt=""/>
                         </li>
                     </ul>
                 </div>
               </div>
-              <!-- <div class="movie-artist-list pdm">
+              <div class="movie-artist-list pdm">
                 <p class="movie-artist-title">热门影评</p>
                 <p class="null">暂无</p>
-                <p class="hotWan">评论内容</p>
-              </div> -->
+                <p v-for='n in 25' class="hotWan">评论内容{{n}}</p>
+              </div>
           </div>
       </div>
 	</div>
@@ -45,12 +45,14 @@ import myVideo from 'vue-video';
 import star from '@/components/star/star';
 import BScroll from 'better-scroll';
 import {isPhone} from '@/common/js/isPhone';
+import {getFontSize} from '@/common/js/getHtmlFontSize';
 import headerTemplate from '@/components/header/header';
 
 export default {
   props:['preview'],
   data(){
     return {
+      videoClientHeight : '',
       video: {
         sources: [{
             src: '',
@@ -69,30 +71,30 @@ export default {
       if(!newVal)
         return;
       this.video.sources[0].src = isPhone() ? newVal.preview[0].iphoneUrl : newVal.preview[0].ipadUrl;
-      this.video.options.poster = '//gw.alicdn.com/tfscom/'+newVal.preview[0].coverUrl
-    }
+      this.video.options.poster = '//gw.alicdn.com/tfscom/'+newVal.preview[0].coverUrl   
+    },
   },
   methods:{
     _initDetailScroll(){
+      if(this.videoClientHeight){
+        detailBox2.style.top = ( this.videoClientHeight + 2.5*getFontSize()) + 'px';
         this.$nextTick(() => { 
-          if(!this.detailScroll){
-            this.detailScroll = new BScroll(detailBox, {
-              click : true,
-            }) 
-          }else{
-            this.detailScroll.refresh();
-          }
+          this.detailScroll = new BScroll(detailBox2, {
+            click : true,
+          }) 
         })
-      },
+      }
+      this.videoClientHeight = '';
+    },
     _initPic(){
       if (this.preview.trailer) {
         let picWidth = 140;
         let margin = 6;
         let width = (picWidth + margin) * this.preview.trailer.length - margin;
-        picsList.style.width = width + 'px';
+        picsList2.style.width = width + 'px';
         this.$nextTick(()=>{
           if(!this.picScroll){
-            this.picScroll = new BScroll(picDom, {
+            this.picScroll = new BScroll(picDom2, {
               scrollX: true,
               //eventPassthrough: 'vertical'
             })
@@ -108,7 +110,6 @@ export default {
   },
   updated(){
     this._initPic();
-    this._initDetailScroll();
   },
   components:{
     myVideo,
@@ -121,7 +122,10 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="stylus" rel="stylesheet/stylus" scoped>
+@import '../../common/css/transition.styl';
 .video
+  transition:all 0.3s ease-in;
+  opacity:0;
   position:fixed;
   left:0;
   top:0;
@@ -139,7 +143,13 @@ export default {
     display:flex;
     justify-content:space-between;
     align-items:center;
+    .movie-top
+      flex:1;
+      width:0;
     p
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
       margin-top:0.5rem;
     .showName
       font-size:1rem;
@@ -200,9 +210,10 @@ export default {
     font-size:1.5rem;
   .hotWan
     padding:1.2rem 0;
-  .detailBox
-    position:absolute;
+  .detailBox2
+    position:fixed;
     left:0;
-    right:0;
+    bottom:0;
     width:100%;
+    overflow:hidden;
 </style>

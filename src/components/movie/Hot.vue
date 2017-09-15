@@ -78,11 +78,12 @@
         },
         showVideo(data){ //给video传输数据
           this.preview = data;
+          this.$parent.$parent.loaderShow = true;
           this.videoModuleShow = true;
-          this.$refs.videoModule._initDetailScroll()
         },
         activitiesDetailShow(data){
           this.activitiesTxt = data;
+          this.$parent.$parent.loaderShow = true;
           this.activitiesShow = true;
         }
       },

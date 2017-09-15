@@ -46,8 +46,8 @@
       <transition name='move'>
           <detail v-show='detailShow' :movieProject='movieProject'></detail>
       </transition>
-       <transition name='fade'>
-          <videoModule ref='videoModule' :preview = 'preview' v-show='videoModuleShow'></videoModule>
+       <transition name='move'>
+          <videoModule  :preview = 'preview' v-show='videoModuleShow'></videoModule>
       </transition>
   </div>
 </template>
@@ -81,7 +81,7 @@
                   beginData[key] = this.sortByKey(beginData[key],'openTime');
               }
               this.movieList = beginData;
-              this.dateRemoval();              
+              this.dateRemoval();    
               this.$parent.$parent.loaderShow = false;
             }
           });
@@ -96,8 +96,8 @@
         },
         showVideo(data){ //给video传输数据
           this.preview = data;
+          this.$parent.$parent.loaderShow = true;
           this.videoModuleShow = true;
-          this.$refs.videoModule._initDetailScroll()
         },
         dateRemoval(){
            var len = this.movieList2.length;
