@@ -63,7 +63,7 @@
 	@import '../../common/css/transition';
 	.close-btn
 		position:fixed;
-		left:15px;
+		left:10px;
 		top:0;
 		width:2.5rem;
 		height:2.5rem;

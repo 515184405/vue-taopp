@@ -93,14 +93,9 @@ export default {
         let width = (picWidth + margin) * this.preview.trailer.length - margin;
         picsList2.style.width = width + 'px';
         this.$nextTick(()=>{
-          if(!this.picScroll){
-            this.picScroll = new BScroll(picDom2, {
-              scrollX: true,
-              //eventPassthrough: 'vertical'
-            })
-          }else{ 
-            this.picScroll.refresh();
-          }
+          this.picScroll = new BScroll(picDom2, {
+            scrollX: true,
+          })
         })
       }
     },

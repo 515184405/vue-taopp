@@ -1,11 +1,11 @@
 <template>
-	<div class="load-container appLoader">
-		<div class="loader">
-			
-		</div>
-		
-		<p class="loader-txt">Loader...</p>
-	</div>
+	<div class="loader-box">
+      <div class="load-container appLoader">
+        <div class="loader">
+        </div>
+        <p class="loader-txt">Loader...</p>
+    </div> 
+  </div>
 </template>
 
 <script>
@@ -14,6 +14,14 @@
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="stylus" rel="stylesheet/stylus" scoped>
+.loader-box{
+  position:fixed;
+  left:0;
+  top:0;
+  height:100%;
+  width:100%;
+  background-color:rgba(255,255,255,0.1);
+}
 .appLoader{
 	position:fixed;
 	left:50%;
