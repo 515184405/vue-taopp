@@ -83,7 +83,6 @@
         },
         activitiesDetailShow(data){
           this.activitiesTxt = data;
-          this.$parent.$parent.loaderShow = true;
           this.activitiesShow = true;
         }
       },
