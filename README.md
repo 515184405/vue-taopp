@@ -6,7 +6,7 @@
 >此项目做的很简单，对数据的操作，筛选。对一些模块的应用，使用方法的了解。对页面的排版布局，flex布局与stylus语法的应用。可以简述为数据的展示项目，特别适用于刚刚上手vue的童鞋们，有些地方写的繁琐,杂乱，勿怪呦...
 
 ## 相关技术
->vue-cli命令、webpack构建、vue-responce、vue-swipe、vue-router、vue-lazyload、better-scroll、样式使用stylus与flex语法编写、数据格式使用json存储
+>vue-cli命令、webpack构建、vue-responce、vue-swipe、vue-router、vue-lazyload、better-scroll、vue-video样式使用stylus与flex语法编写、数据格式使用json存储
 
 ## 关于数据
 >在淘票票客户端上截取下来的，并存为json格式，所以项目之间有些页面之间是不关联的，请见谅
@@ -15,7 +15,7 @@
  
           git clone https://github.com/515184405/vue-taopp
 
-          cd taopp(项目根目录)
+          cd vue-taopp(项目根目录)
 
           npm install（安装相关依赖）
 
