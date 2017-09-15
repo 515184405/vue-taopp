@@ -65,3 +65,10 @@
  ### 城市筛选
        > 定位功能  (自动选择城市【数据未联动】)
        > 城市可筛选（手动选择【数据未联动】）
+       
+## 实例演示
+![影片](http://taopp.035k.com/demo/movie.gif)
+![影院](http://taopp.035k.com/demo/cinema.gif)
+![个人中心](http://taopp.035k.com/demo/user.gif)
+![登录后](http://taopp.035k.com/demo/logined.gif)
+![选择城市](http://taopp.035k.com/demo/selectCity.gif)   
