@@ -68,7 +68,7 @@
        
 ## 实例演示
 ![影片](https://github.com/515184405/file/blob/master/movie.gif)
-![影院](https://github.com/515184405/file/blob/master/cinema.gif)
+<span margin-left='30px'>![影院](https://github.com/515184405/file/blob/master/cinema.gif)</span>
 ![个人中心](https://github.com/515184405/file/blob/master/user.gif)
-![登录后](https://github.com/515184405/file/blob/master/logined.gif)
+<span margin-left='30px'>![登录后](https://github.com/515184405/file/blob/master/logined.gif)</span>
 ![选择城市](https://github.com/515184405/file/blob/master/selectCity.gif)   
