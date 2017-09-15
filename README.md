@@ -67,8 +67,8 @@
        > 城市可筛选（手动选择【数据未联动】）
        
 ## 实例演示
-![影片](https://github.com/515184405/file/blob/master/movie.gif)
-<span margin-left='30px'>![影院](https://github.com/515184405/file/blob/master/cinema.gif)</span>
-![个人中心](https://github.com/515184405/file/blob/master/user.gif)
-<span margin-left='30px'>![登录后](https://github.com/515184405/file/blob/master/logined.gif)</span>
+![影片](https://github.com/515184405/file/blob/master/movie.gif)&nbsp;&nbsp;&nbsp;
+![影院](https://github.com/515184405/file/blob/master/cinema.gif)
+![个人中心](https://github.com/515184405/file/blob/master/user.gif)&nbsp;&nbsp;&nbsp;
+![登录后](https://github.com/515184405/file/blob/master/logined.gif)
 ![选择城市](https://github.com/515184405/file/blob/master/selectCity.gif)   
