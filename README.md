@@ -67,8 +67,8 @@
        > 城市可筛选（手动选择【数据未联动】）
        
 ## 实例演示
-![影片](http://taopp.035k.com/demo/movie.gif)
-![影院](http://taopp.035k.com/demo/cinema.gif)
-![个人中心](http://taopp.035k.com/demo/user.gif)
-![登录后](http://taopp.035k.com/demo/logined.gif)
-![选择城市](http://taopp.035k.com/demo/selectCity.gif)   
+![影片](https://github.com/515184405/file/movie.gif)
+![影院](https://github.com/515184405/file/cinema.gif)
+![个人中心](https://github.com/515184405/file/user.gif)
+![登录后](https://github.com/515184405/file/logined.gif)
+![选择城市](https://github.com/515184405/file/selectCity.gif)   
