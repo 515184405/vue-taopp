@@ -66,6 +66,7 @@
 				删除订单
 			</div>
 		</div>
+		<alerts ref='alerts'></alerts>
   </div>
 </template>
 
@@ -73,6 +74,7 @@
 import BScroll from 'better-scroll';
 import {formatDate} from '@/common/js/formatDate';
 import headerTemplate from '@/components/header/header';
+import alerts from '@/components/alert/alert';
 import Vue from 'vue'
 import QRCode from 'qrcode'
 Vue.use(QRCode);
@@ -102,12 +104,26 @@ export default {
 	  		var orderList = this.$parent.list.orders;
 	  		for(var i=0;i < orderList.length;i++){
 	  			if(orderList[i].cinemaId == id){
-	  				var isTrue = window.confirm('确定要删除电影名为《'+orderList[i].title+'》的订单吗');
-	  				if(isTrue){
-	  					orderList.splice(i,1);
-	  					this.$parent.cardDetailMsg = '';
-	  					alert('删除成功');
-	  				}
+
+	  				var _self = this;
+	  				this.$refs.alerts.opts = {
+			  			content : '确定要删除电影名为《'+orderList[i].title+'》的订单吗',
+			  			width : '220px',
+			  			buttons:{
+			  				'确定' : function(){
+			  					orderList.splice(i,1);
+			  					_self.$refs.alerts.alertShow = false;
+			  					_self.$refs.alerts.opts = {
+									content : '删除成功',
+			  					}
+			  					setTimeout(function(){
+			  						_self.$parent.cardDetailMsg = '';
+			  					},1000)
+			  					_self.$refs.alerts.alertShow = true;
+			  				}
+			  			}
+			  		}
+			  		this.$refs.alerts.alertShow = true;
 	  				return;
 	  			}
 	  		}
@@ -139,7 +155,7 @@ export default {
 		this.useqrcode();
 	},
 
-	components:{headerTemplate},
+	components:{headerTemplate,alerts},
 }
 </script>
 

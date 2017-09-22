@@ -111,7 +111,6 @@
 	  		this.selectEndArr = '';
 	  		this.selectName = '';
 	  		this.$refs.selector.selectArr = [];
-	  		this.$refs.selectEndArr.selectArr = [];
 	  	},
 	  	dateTab(index,dates){ //日期tab选项方法
 	  		this.dateSelectActive = index;

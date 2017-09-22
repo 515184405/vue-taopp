@@ -59,6 +59,7 @@
     <transition name='fade'>
        <buyDetail ref='buyDetail' v-show='isShowBuyDetail' :selSeats='selSeats' :buyMsg='selectSeats'></buyDetail>
     </transition>
+    <alerts ref='alerts'></alerts>
 	</div>
 </template>
 <script>
@@ -66,6 +67,7 @@ import {formatDate} from '@/common/js/formatDate';  //引入时间格式化js文
 import {getFontSize} from '@/common/js/getHtmlFontSize'; //引入获取fontSize文件
 import buyDetail from '@/components/buy/buyDetail';
 import login from '@/components/login/login';
+import alerts from '@/components/alert/alert';
 import BScroll from 'better-scroll';
 
 export default {
@@ -85,7 +87,7 @@ export default {
             return formatDate(time,'MM-dd hh:mm');
          }
       },
-      components:{buyDetail,login},
+      components:{buyDetail,login,alerts},
       created(){ //获取数据
        var href = location.href;
        var url = '/api/buyseats';
@@ -134,12 +136,19 @@ export default {
         },
         resetPhone(){ //修改成功确认
           if(this.userPhone.length != 11){
-             return alert("请输入正确的手机号码")
+            this.$refs.alerts.opts = {
+              content : '请输入正确的手机号码',
+            }
+            this.$refs.alerts.alertShow = true;
+             return
           }
           this.selectSeats.mtopSeatMap.userPhone = this.userPhone;
           this.tabStatus = false;
           userPhone.setAttribute('disabled','disabled');
-          alert('修改成功')
+            this.$refs.alerts.opts = {
+              content : '修改成功',
+            }
+            this.$refs.alerts.alertShow = true;
         },
         showBuyDetail(){ //显示购买详情信息
           this.isShowBuyDetail = true;

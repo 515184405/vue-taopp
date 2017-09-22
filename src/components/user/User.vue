@@ -27,11 +27,13 @@
     <transition name='move'>
       <router-view></router-view>
     </transition>
+    <alerts ref='alerts'></alerts>
   </div>
 </template>
 
 <script>
 import login from '@/components/login/login';
+import alerts from '@/components/alert/alert';
 import discount from '@/components/user/discount';
 export default {
   data () {
@@ -45,7 +47,11 @@ export default {
       this.discount = true;
     },
     alert(){
-      alert('暂未开通');
+      this.$refs.alerts.alertShow = false;
+      this.$refs.alerts.opts = {
+      content : '暂未开通',
+      }
+      this.$refs.alerts.alertShow = true;
     }
   },
   created(){
@@ -59,7 +65,7 @@ export default {
       },200)
     }
   },
-  components:{login,discount},
+  components:{login,discount,alerts},
 }
 </script>
 

@@ -16,10 +16,12 @@
         		注：用户名与密码均为111111
         	</p>
         </div>
+        <alerts ref='alerts'></alerts>
      </div>
 </template>
 <script>
 	import headers from '@/components/header/header';
+	import alerts from '@/components/alert/alert';
 	export default {
 		data(){
 			return {
@@ -29,20 +31,39 @@
 				loginPwd : '111111'
 			}
 		},
-		components:{headers},
+		components:{headers,alerts},
 		methods:{
 			loginBtn(){  //登录按钮操作
+				var _self = this;
 				if(this.userName == this.loginName && this.userPwd == this.loginPwd){
 					sessionStorage.setItem("userName", this.userName);
 					sessionStorage.setItem("userPwd", this.userPwd);
-					alert('登录成功')
-					this.$parent.loginShow = false;
+			  		this.$refs.alerts.opts = {
+			  			content : '登录成功',
+			  		}
+			  		setTimeout(function(){
+						_self.$parent.loginShow = false;
+			  		},1000)
+			  		this.$refs.alerts.alertShow = true;
 				}else{
-					alert('请正确输入用户名及密码；用户名与密码都为111111')
+					this.$refs.alerts.opts = {
+			  			content : '请正确输入用户名及密码；用户名与密码都为111111',
+			  			width : '220px',
+			  			buttons:{
+			  				'知道了' : function(){
+			  					_self.$refs.alerts.alertShow = false;
+			  				}
+			  			}
+			  		}
+			  		this.$refs.alerts.alertShow = true;
 				}
 			},
 			loginMsg(){  //短信登录操作
-				alert('暂未开通')
+				this.$refs.alerts.opts = {
+		  			content : '暂未开通',
+		  			time : 1000,
+		  		}
+			  	this.$refs.alerts.alertShow = true;
 			},
 			routerDirect(){ //设置登录返回功能
 				this.$router.go(-1);

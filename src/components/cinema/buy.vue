@@ -78,6 +78,7 @@
         <transition name='move'>
           <bankCard ref='bankCard' v-show='isbankCard'></bankCard>
         </transition>
+        <alerts ref='alerts'></alerts>
     </div>
 </template>
 <script>
@@ -85,6 +86,7 @@
     import taoppIcon from '@/components/taopp/taoppIcon';
     import bankCard from '@/components/cinema/bank-card';
     import BScroll from 'better-scroll';
+    import alerts from '@/components/alert/alert';
     import {getFontSize} from '@/common/js/getHtmlFontSize';
     export default {
       props:['buyData'],
@@ -117,7 +119,11 @@
             }
           },
           activitiesShow(){
-            alert('暂未开放')
+            var _self = this;
+            this.$refs.alerts.opts = {
+              content : '数据暂不存在 ，请谅解',
+            }
+            this.$refs.alerts.alertShow = true;
           },
           bankCarcShow(){ //卡片信息显示模块
             this.isbankCard = true;
@@ -147,7 +153,16 @@
             var imgWidth = 4.9;
             this.showId = showId;
             if(event.target.className.indexOf('bigImg') != -1){
-              alert(11)
+              var _self = this;
+              this.$refs.alerts.opts = {
+                content : '详情信息不存在 ，请谅解',
+                buttons : {
+                  '关闭' : function(){
+                    _self.$refs.alerts.alertShow = false;
+                  }
+                }
+              }
+              this.$refs.alerts.alertShow = true;
               return;
             }
             this.picScroll.scrollTo(-imgWidth*index*getFontSize(),500)
@@ -171,7 +186,7 @@
             return parseInt(input)/100
           }
        },
-       components:{headers,bankCard,taoppIcon},
+       components:{headers,bankCard,taoppIcon,alerts},
        created(){ //获取数据方法
         var href = location.href;
         var url = '/api/buy';

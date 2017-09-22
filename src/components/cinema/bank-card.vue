@@ -19,15 +19,18 @@
 				</div>
 			</div>
 		</div>
+		<alerts ref='alerts'></alerts>
 	</div>
 </template>
 <script>
 	import BScroll from 'better-scroll';
 	import headerTemplate from '@/components/header/header';
+	import alerts from '@/components/alert/alert';
 	export default{
 		data(){
 			return {
 				banks :"",
+				alertShow : false,
 			}
 		},
 		methods:{
@@ -43,10 +46,19 @@
 	  			})
 		  	},
 		  	bankCardClick(){
-		  		alert('暂不可用')
+		  		var _self = this;
+		  		this.$refs.alerts.opts = {
+		  			content : '办卡功能暂未开启 ，请谅解',
+		  			buttons:{
+		  				'确定' : function(){
+		  					_self.$refs.alerts.alertShow = false;
+		  				}
+		  			}
+		  		}
+		  		this.$refs.alerts.alertShow = true;
 		  	}
 		},
-		components:{headerTemplate},
+		components:{headerTemplate,alerts},
 		created(){ //获取数据方法
           var href = location.href;
 		  var url = '/api/bank';

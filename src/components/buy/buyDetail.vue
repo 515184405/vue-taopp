@@ -41,6 +41,7 @@
       <p class="buy-money">应付<span class="highLight-money"><span class="bold-money">{{selSeats.length*buyMsg.marketingToolSolution.oriSettlePrice/100}}</span>元</span></p>
       <p class="buy-btn" @click='payment'>立即付款</p>
   </div>
+  <alerts ref='alerts'></alerts>
 </div>
 
 </template>
@@ -48,6 +49,7 @@
 import {formatDate} from '@/common/js/formatDate';
 import BScroll from 'better-scroll';
 import headerTemplate from '@/components/header/header';
+import alerts from '@/components/alert/alert';
 
 export default {
   data(){
@@ -57,7 +59,7 @@ export default {
     }
   },
   props:['selSeats','buyMsg'],
-  components:{headerTemplate},
+  components:{headerTemplate,alerts},
   methods:{
     _initScroll(){ //座位滚动操作
       this.$nextTick(() => { 
@@ -77,13 +79,20 @@ export default {
           clearInterval(timer);
           _self.payTime = 15*60;
         }
+        _self.payTime--;
         if(_self.payTime <= 0){
            clearInterval(timer);
-           alert('已超时')//超时提醒
-           _self.$parent.isShowBuyDetail = false;
-           _self.payTime = 15*60;
+           // alert模块
+           _self.$refs.alerts.opts = {//超时提醒
+              content : '已超时,1s后返回',
+            }
+            _self.$refs.alerts.alertShow = true;
+            // alert模块
+            setTimeout(function(){
+              _self.$parent.isShowBuyDetail = false;
+              _self.payTime = 15*60;
+            },1000)
         }
-        _self.payTime--;
         let h = parseInt(_self.payTime/60);
         let H = h > 9 ? h : "0" + h;
         let m =  _self.payTime - h*60;
@@ -92,7 +101,12 @@ export default {
       },1000)
     },
     payment(){
-      alert('付款功能未开通')
+       // alert模块
+      this.$refs.alerts.opts = {//超时提醒
+        content : '暂未开通付款功能',
+      }
+      this.$refs.alerts.alertShow = true;
+      // alert模块
     }
   },
    updated(){
