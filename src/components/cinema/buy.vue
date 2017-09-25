@@ -214,6 +214,10 @@
         this._initPic();
         this._initScroll();
       },
+      mounted(){
+        this._initPic();
+        this._initScroll();
+      }
     }
 </script>
 <style lang="stylus" rel="stylesheet/stylus" scoped>
