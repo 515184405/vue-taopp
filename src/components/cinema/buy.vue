@@ -82,6 +82,7 @@
     </div>
 </template>
 <script>
+    var data = '';//js缓存数据
     import headers from '@/components/header/header';
     import taoppIcon from '@/components/taopp/taoppIcon';
     import bankCard from '@/components/cinema/bank-card';
@@ -188,20 +189,26 @@
        },
        components:{headers,bankCard,taoppIcon,alerts},
        created(){ //获取数据方法
-        var href = location.href;
-        var url = '/api/buy';
-        if(href.indexOf('taopp') != -1){
-          url = '/cinemaDetail.json';
+        if(!data){
+          var href = location.href;
+          var url = '/api/buy';
+          if(href.indexOf('taopp') != -1){
+            url = '/cinemaDetail.json';
+          }
+          this.$http.get(url).then((response) => {
+              response = response.body;
+              if(response.data.returnCode == 0){
+                this.buy = data = response.data.returnValue;
+                console.log(this.buy)
+                this.$parent.$parent.loaderShow = false;
+                this.showId = this.buy.showVos[0].showId;
+              }
+           });
+        }else{
+          this.buy = data;
+          this.showId = this.buy.showVos[0].showId;
+          this.$parent.$parent.loaderShow = false;
         }
-        this.$http.get(url).then((response) => {
-            response = response.body;
-            if(response.data.returnCode == 0){
-              this.buy = response.data.returnValue;
-              console.log(this.buy)
-              this.$parent.$parent.loaderShow = false;
-              this.showId = this.buy.showVos[0].showId;
-            }
-         });
       },
       updated(){
         this._initPic();

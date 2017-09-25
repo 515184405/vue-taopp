@@ -23,6 +23,7 @@
 	</div>
 </template>
 <script>
+	var data = '';//js 做数据缓存
 	import BScroll from 'better-scroll';
 	import headerTemplate from '@/components/header/header';
 	import alerts from '@/components/alert/alert';
@@ -60,17 +61,21 @@
 		},
 		components:{headerTemplate,alerts},
 		created(){ //获取数据方法
-          var href = location.href;
-		  var url = '/api/bank';
-          if(href.indexOf('taopp') != -1){
-            url = '/bankCard.json';
-          }
-          this.$http.get(url).then((response) => {
-            response = response.body;
-            if(response.data.returnCode == 0){
-              this.banks = response.data.returnValue;
-            }
-          });
+		   if(!data){
+	          var href = location.href;
+			  var url = '/api/bank';
+	          if(href.indexOf('taopp') != -1){
+	            url = '/bankCard.json';
+	          }
+	          this.$http.get(url).then((response) => {
+	            response = response.body;
+	            if(response.data.returnCode == 0){
+	              this.banks = data = response.data.returnValue;
+	            }
+	          });
+			}else{
+				this.banks = data;
+			}
         },
 	    updated(){
 	      this._initScroll();

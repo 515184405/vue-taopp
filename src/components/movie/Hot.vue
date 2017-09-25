@@ -39,6 +39,7 @@
           </div>
 </template>
 <script>
+  var data = '';
   import detail from '@/components/movie/detail';
   import activities from '@/components/movie/activities';
   import swipe from "@/components/swipe/swipe";
@@ -57,19 +58,23 @@
         }
       },
       created(){
-       var href = location.href;
-       var url = '/api/data';
-       if(href.indexOf('taopp') != -1){
-         url = '/data.json';
-       }
-       this.$http.get(url).then((response) => {
+       if(!data){
+          var href = location.href;
+          var url = '/api/data';
+          if(href.indexOf('taopp') != -1){
+            url = '/data.json';
+          }
+          this.$http.get(url).then((response) => {
             response = response.body;
             if(response.data.returnCode == 0){
-              this.movieList = response.data.returnValue;
+              this.movieList = data = response.data.returnValue;
               this.$parent.$parent.loaderShow = false;
             }
           });
-
+       }else{
+         this.movieList = data;
+         this.$parent.$parent.loaderShow = false;
+       }
       },
       methods:{
          movieProjectData(data){

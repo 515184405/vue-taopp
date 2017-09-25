@@ -63,6 +63,7 @@
 	</div>
 </template>
 <script>
+var data = '';
 import {formatDate} from '@/common/js/formatDate';  //引入时间格式化js文件
 import {getFontSize} from '@/common/js/getHtmlFontSize'; //引入获取fontSize文件
 import buyDetail from '@/components/buy/buyDetail';
@@ -89,20 +90,25 @@ export default {
       },
       components:{buyDetail,login,alerts},
       created(){ //获取数据
-       var href = location.href;
-       var url = '/api/buyseats';
-       if(href.indexOf('taopp') != -1){
-         url = '/buySeats.json';
-       }
-       this.$http.get(url).then((response) => {
+        if(!data){
+         var href = location.href;
+         var url = '/api/buyseats';
+         if(href.indexOf('taopp') != -1){
+           url = '/buySeats.json';
+         }
+         this.$http.get(url).then((response) => {
             response = response.body;
             if(response.data.returnCode == 0){
-              this.selectSeats = response.data.returnValue;
+              this.selectSeats = data = response.data.returnValue;
               this.$parent.loaderShow = false;
               this.userPhone = this.selectSeats.mtopSeatMap.userPhone;
             }
           });
-
+        }else{
+          this.selectSeats = data;
+          this.$parent.loaderShow = false;
+          this.userPhone = this.selectSeats.mtopSeatMap.userPhone;
+        }
       },
       methods:{
         fontSize(){ //获取html的font-size值

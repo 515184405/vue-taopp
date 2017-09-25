@@ -72,6 +72,7 @@
 </template>
 
 <script>
+	var data = '';
 	import selectcity from '@/components/selectcity/selectcity';
 	import selector from '@/components/cinema/selector';
 	import search from '@/components/cinema/search';
@@ -240,19 +241,25 @@
 	  	}
 	  },
 	  created(){ //获取数据方法 var href = location.href;
-        var href = location.href;
-        var url = '/api/cinema';
-        if(href.indexOf('taopp') != -1){
-          url = '/cinema.json';
-        }
-        this.$http.get(url).then((response) => {
-            response = response.body;
-            if(response.data.returnCode == 0){
-              this.cinemaList = response.data.returnValue;
-              this.dateSel = this.cinemaList.cinemaFilter.supportDates[0];
-              this.$parent.loaderShow = false;
-            }
-         });
+	  	 if(!data){
+	        var href = location.href;
+	        var url = '/api/cinema';
+	        if(href.indexOf('taopp') != -1){
+	          url = '/cinema.json';
+	        }
+	        this.$http.get(url).then((response) => {
+	            response = response.body;
+	            if(response.data.returnCode == 0){
+	              this.cinemaList = data = response.data.returnValue;
+	              this.dateSel = this.cinemaList.cinemaFilter.supportDates[0];
+	              this.$parent.loaderShow = false;
+	            }
+	         });
+	       }else{
+	       		this.cinemaList = data;
+	       		this.dateSel = this.cinemaList.cinemaFilter.supportDates[0];
+	            this.$parent.loaderShow = false;
+	       }
       },
       mounted(){
 	     this._initPic();

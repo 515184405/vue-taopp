@@ -31,6 +31,7 @@
 		font-weight:bold;
 		z-index:15;
 		.header-title
+			font-weight:bold;
 			display:block;
 			margin:0 auto;
 			width:60%;

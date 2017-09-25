@@ -52,6 +52,7 @@
   </div>
 </template>
 <script>
+  var data = '',data2;
   import detail from '@/components/movie/detail';
   import videoModule from '@/components/movie/video';
   export default {
@@ -67,24 +68,30 @@
         }
       },
       created(){
-        var href = location.href;
-        var url = '/api/begin';
-        if(href.indexOf('taopp') != -1){
-          url = '/begin.json';
-        }
-        this.$http.get(url).then((response) => {
+        if(!data){
+          var href = location.href;
+          var url = '/api/begin';
+          if(href.indexOf('taopp') != -1){
+            url = '/begin.json';
+          }
+          this.$http.get(url).then((response) => {
             response = response.body;
             if(response.data.returnCode == 0){
               var beginData = response.data.returnValue.soonShowGuideMap;
-              this.movieList2 = response.data.returnValue.soonShows;
+              this.movieList2 = data = response.data.returnValue.soonShows;
               for(var key in beginData){
                   beginData[key] = this.sortByKey(beginData[key],'openTime');
               }
-              this.movieList = beginData;
+              this.movieList = data2 = beginData;
               this.dateRemoval();    
               this.$parent.$parent.loaderShow = false;
             }
           });
+        }else{
+          this.movieList2 = data;
+          this.movieList = data2;
+          this.$parent.$parent.loaderShow = false;
+        }
       },
       methods : {
         //json排序

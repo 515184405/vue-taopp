@@ -26,6 +26,7 @@
 </template>
 
 <script>
+var data = '';
 import headerTemplate from '@/components/header/header';
 import cardDetail from '@/components/user/cardDetail';
 import {formatDate} from '@/common/js/formatDate';
@@ -52,6 +53,7 @@ export default {
 		}
 	},
 	created(){
+	  if(!data){
 	    var href = location.href;
 	    var url = '/api/moviecard';
 	    if(href.indexOf('taopp') != -1){
@@ -60,10 +62,14 @@ export default {
 	    this.$http.get(url).then((response) => {
 	        response = response.body;
 	        if(response.data.returnCode == 0){
-	          this.list = response.data.returnValue;
+	          this.list = data = response.data.returnValue;
 	          this.$parent.$parent.loaderShow = false;
 	        }
 	    });
+	  }else{
+	  	this.list = data;
+	    this.$parent.$parent.loaderShow = false;
+	  }
 	},
 }
 </script>
