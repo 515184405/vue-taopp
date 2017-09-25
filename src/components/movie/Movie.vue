@@ -7,7 +7,7 @@
                 <router-link to='/movie/begin' class="begin-screen">即将上映</router-link>
           </div> 
    		</div>
-      <transition name='fade'>
+      <transition name='slide'>
         <router-view class='movie-box'></router-view>
       </transition>
   </div>

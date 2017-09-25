@@ -286,8 +286,15 @@
 	width:100%;
 	overflow:hidden;
 	bottom:51px;
+	background:#fff;
 .cinema
 	color:#888;
+	position:absolute;
+	left:0;
+	top:0;
+	bottom:0;
+	width:100%;
+	height:100%;
 	.cinema-header
 		position:fixed;
 		left:0;
